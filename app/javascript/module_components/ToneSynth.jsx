@@ -90,17 +90,14 @@ export default class ToneSynth extends Component {
       'fatsquare',
       'fatsawtooth',
       'fattriangle',
-      'fatcustom',
       'fmsine',
       'fmsquare',
       'fmsawtooth',
       'fmtriangle',
-      'fmcustom',
       'amsine',
       'amsquare',
       'amsawtooth',
       'amtriangle',
-      'amcustom',
       'pulse',
       'pwm'
     ]
