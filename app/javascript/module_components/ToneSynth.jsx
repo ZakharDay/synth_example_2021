@@ -18,7 +18,7 @@ export default class ToneSynth extends Component {
   updateNodeParams = () => {
     const { node, settings } = this.props
     const { volume, detune, portamento, envelope, oscillator } = settings
-    const { phase, harmonicity } = oscillator
+    const { type, phase, harmonicity } = oscillator
 
     const {
       attack,
@@ -34,8 +34,12 @@ export default class ToneSynth extends Component {
     node.detune.value = detune
     node.portamento = portamento
 
+    node.oscillator.type = type
     node.oscillator.phase = phase
-    node.oscillator.harmonicity.value = harmonicity
+
+    if (node.oscillator.harmonicity) {
+      node.oscillator.harmonicity.value = harmonicity
+    }
 
     node.envelope.attack = attack
     node.envelope.attackCurve = attackCurve
@@ -56,7 +60,7 @@ export default class ToneSynth extends Component {
     const { volume, detune, portamento, envelope, oscillator } = settings
 
     const {
-      // type,
+      type,
       // modulationType,
       // partialCount,
       // partials,
@@ -80,6 +84,26 @@ export default class ToneSynth extends Component {
       release,
       releaseCurve
     } = envelope
+
+    const oscillatorTypes = [
+      'fatsine',
+      'fatsquare',
+      'fatsawtooth',
+      'fattriangle',
+      'fatcustom',
+      'fmsine',
+      'fmsquare',
+      'fmsawtooth',
+      'fmtriangle',
+      'fmcustom',
+      'amsine',
+      'amsquare',
+      'amsawtooth',
+      'amtriangle',
+      'amcustom',
+      'pulse',
+      'pwm'
+    ]
 
     const envelopeCurves = [
       'linear',
@@ -129,6 +153,14 @@ export default class ToneSynth extends Component {
         />
 
         <h2>Oscillator</h2>
+
+        <ButtonSet
+          name="Type"
+          property={['oscillator', 'type']}
+          value={type}
+          options={oscillatorTypes}
+          handleChange={this.handlePropertyValueChange}
+        />
 
         <Slider
           name="Phase"
