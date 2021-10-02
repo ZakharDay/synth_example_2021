@@ -19,97 +19,107 @@ export default class SynthRoom extends PureComponent {
     const instrumentElements = []
 
     instruments.forEach((instrument, i) => {
-      const { id, name, type, node, settings } = instrument
-      let instrumentElement
+      const instrumentModuleElements = []
 
-      switch (type) {
-        case 'ToneSynth':
-          instrumentElement = (
-            <ToneSynth
-              id={id}
-              name={name}
-              node={node}
-              settings={settings}
-              handlePropertyValueChange={handlePropertyValueChange}
-              key={i}
-            />
-          )
-          break
-        case 'Chorus':
-          instrumentElement = (
-            <ChorusEffect
-              id={id}
-              name={name}
-              node={node}
-              settings={settings}
-              handlePropertyValueChange={handlePropertyValueChange}
-              key={i}
-            />
-          )
-          break
-        case 'Freeverb':
-          instrumentElement = (
-            <FreeverbEffect
-              id={id}
-              name={name}
-              node={node}
-              settings={settings}
-              handlePropertyValueChange={handlePropertyValueChange}
-              key={i}
-            />
-          )
-          break
-        case 'PingPongDelay':
-          instrumentElement = (
-            <PingPongDelayEffect
-              id={id}
-              name={name}
-              node={node}
-              settings={settings}
-              handlePropertyValueChange={handlePropertyValueChange}
-              key={i}
-            />
-          )
-          break
-        case 'Tremolo':
-          instrumentElement = (
-            <TremoloEffect
-              id={id}
-              name={name}
-              node={node}
-              settings={settings}
-              handlePropertyValueChange={handlePropertyValueChange}
-              key={i}
-            />
-          )
-          break
-        case 'Vibrato':
-          instrumentElement = (
-            <VibratoEffect
-              id={id}
-              name={name}
-              node={node}
-              settings={settings}
-              handlePropertyValueChange={handlePropertyValueChange}
-              key={i}
-            />
-          )
-          break
-        case 'Channel':
-          instrumentElement = (
-            <Channel
-              id={id}
-              name={name}
-              node={node}
-              settings={settings}
-              handlePropertyValueChange={handlePropertyValueChange}
-              key={i}
-            />
-          )
-          break
-      }
+      instrument.forEach((instrumentModule, i) => {
+        const { id, name, type, node, settings } = instrumentModule
+        let instrumentModuleElement
 
-      instrumentElements.push(instrumentElement)
+        switch (type) {
+          case 'ToneSynth':
+            instrumentModuleElement = (
+              <ToneSynth
+                id={id}
+                name={name}
+                node={node}
+                settings={settings}
+                handlePropertyValueChange={handlePropertyValueChange}
+                key={i}
+              />
+            )
+            break
+          case 'Chorus':
+            instrumentModuleElement = (
+              <ChorusEffect
+                id={id}
+                name={name}
+                node={node}
+                settings={settings}
+                handlePropertyValueChange={handlePropertyValueChange}
+                key={i}
+              />
+            )
+            break
+          case 'Freeverb':
+            instrumentModuleElement = (
+              <FreeverbEffect
+                id={id}
+                name={name}
+                node={node}
+                settings={settings}
+                handlePropertyValueChange={handlePropertyValueChange}
+                key={i}
+              />
+            )
+            break
+          case 'PingPongDelay':
+            instrumentModuleElement = (
+              <PingPongDelayEffect
+                id={id}
+                name={name}
+                node={node}
+                settings={settings}
+                handlePropertyValueChange={handlePropertyValueChange}
+                key={i}
+              />
+            )
+            break
+          case 'Tremolo':
+            instrumentModuleElement = (
+              <TremoloEffect
+                id={id}
+                name={name}
+                node={node}
+                settings={settings}
+                handlePropertyValueChange={handlePropertyValueChange}
+                key={i}
+              />
+            )
+            break
+          case 'Vibrato':
+            instrumentModuleElement = (
+              <VibratoEffect
+                id={id}
+                name={name}
+                node={node}
+                settings={settings}
+                handlePropertyValueChange={handlePropertyValueChange}
+                key={i}
+              />
+            )
+            break
+          case 'Channel':
+            instrumentModuleElement = (
+              <Channel
+                id={id}
+                name={name}
+                node={node}
+                settings={settings}
+                handlePropertyValueChange={handlePropertyValueChange}
+                key={i}
+              />
+            )
+            break
+        }
+
+        instrumentModuleElements.push(instrumentModuleElement)
+      })
+
+      instrumentElements.push(
+        <div className="Row" key={i}>
+          {instrumentModuleElements}
+        </div>
+      )
     })
 
     return <div className="SynthRoom">{instrumentElements}</div>
