@@ -56,7 +56,7 @@ export default class ToneSynth extends Component {
   }
 
   render() {
-    const { id, name, settings } = this.props
+    const { name, settings } = this.props
     const { volume, detune, portamento, envelope, oscillator } = settings
 
     const {

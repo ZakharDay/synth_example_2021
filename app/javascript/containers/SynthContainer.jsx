@@ -52,12 +52,40 @@ export default class SynthContainer extends PureComponent {
     }
 
     const melodySynthChorusSettings = {
-      wet: 0.6,
+      wet: 0,
       type: 'sine',
       frequency: 1.5,
       delayTime: 3.5,
       depth: 0.7,
       spread: 180
+    }
+
+    const melodySynthFreeverbSettings = {
+      wet: 0,
+      roomSize: 0.7,
+      dampening: 1000
+    }
+
+    const melodySynthPingPongDelaySettings = {
+      wet: 0,
+      delayTime: 0.25,
+      maxDelayTime: 1
+    }
+
+    const melodySynthTremoloSettings = {
+      wet: 0,
+      frequency: 10,
+      type: 'sine',
+      depth: 0.5,
+      spread: 180
+    }
+
+    const melodySynthVibratoSettings = {
+      wet: 0,
+      maxDelay: 0.005,
+      frequency: 5,
+      depth: 0.1,
+      type: 'sine'
     }
 
     const melodySynthChannelSettings = {
@@ -73,11 +101,29 @@ export default class SynthContainer extends PureComponent {
       melodySynthChorusSettings
     ).start()
 
+    const melodySynthFreeverbNode = new Tone.Freeverb(
+      melodySynthFreeverbSettings
+    )
+
+    const melodySynthPingPongDelayNode = new Tone.PingPongDelay(
+      melodySynthPingPongDelaySettings
+    )
+
+    const melodySynthTremoloNode = new Tone.Tremolo(melodySynthTremoloSettings)
+    const melodySynthVibratoNode = new Tone.Vibrato(melodySynthVibratoSettings)
+
     const melodySynthChannelNode = new Tone.Channel(
       melodySynthChannelSettings
     ).toDestination()
 
-    melodySynthNode.chain(melodySynthChorusNode, melodySynthChannelNode)
+    melodySynthNode.chain(
+      melodySynthChorusNode,
+      melodySynthFreeverbNode,
+      melodySynthPingPongDelayNode,
+      melodySynthTremoloNode,
+      melodySynthVibratoNode,
+      melodySynthChannelNode
+    )
 
     const instruments = [
       {
@@ -93,6 +139,34 @@ export default class SynthContainer extends PureComponent {
         type: 'Chorus',
         node: melodySynthChorusNode,
         settings: melodySynthChorusSettings
+      },
+      {
+        id: this.generateUniqId(),
+        name: 'Freeverb',
+        type: 'Freeverb',
+        node: melodySynthFreeverbNode,
+        settings: melodySynthFreeverbSettings
+      },
+      {
+        id: this.generateUniqId(),
+        name: 'Ping Pong Delay',
+        type: 'PingPongDelay',
+        node: melodySynthPingPongDelayNode,
+        settings: melodySynthPingPongDelaySettings
+      },
+      {
+        id: this.generateUniqId(),
+        name: 'Tremolo',
+        type: 'Tremolo',
+        node: melodySynthTremoloNode,
+        settings: melodySynthTremoloSettings
+      },
+      {
+        id: this.generateUniqId(),
+        name: 'Vibrato',
+        type: 'Vibrato',
+        node: melodySynthVibratoNode,
+        settings: melodySynthVibratoSettings
       },
       {
         id: this.generateUniqId(),
@@ -122,6 +196,7 @@ export default class SynthContainer extends PureComponent {
   }
 
   handlePropertyValueChange = (id, property, value) => {
+    console.log(property, value)
     // Звук лагает при изменении параметров
     // const { instruments } = this.state
     //

@@ -2,10 +2,9 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
 import Slider from '../control_components/Slider'
-import Knob from '../control_components/Knob'
 import ButtonSet from '../control_components/ButtonSet'
 
-export default class ChorusEffect extends Component {
+export default class TremoloEffect extends Component {
   constructor(props) {
     super(props)
   }
@@ -16,14 +15,17 @@ export default class ChorusEffect extends Component {
   // }
 
   updateNodeParams = () => {
+    // frequency: 10,
+    // type: 'sine',
+    // depth: 0.5,
+    // spread: 180
     const { node, settings } = this.props
-    const { wet, type, frequency, delayTime, depth, spread } = settings
+    const { wet, frequency, type, depth, spread } = settings
 
     node.wet.value = wet
-    node.type = type
     node.frequency.value = frequency
-    node.delayTime = delayTime
-    node.depth = depth
+    node.type = type
+    node.depth.value = depth
     node.spread = spread
   }
 
@@ -40,7 +42,7 @@ export default class ChorusEffect extends Component {
     this.updateNodeParams()
 
     return (
-      <div className="ChorusEffect">
+      <div className="TremoloEffect">
         <h1>{name}</h1>
 
         <Slider
@@ -53,31 +55,21 @@ export default class ChorusEffect extends Component {
           handleChange={this.handlePropertyValueChange}
         />
 
-        <ButtonSet
-          name="Type"
-          property={['type']}
-          value={type}
-          options={oscillatorTypes}
-          handleChange={this.handlePropertyValueChange}
-        />
-
         <Slider
           name="Frequency"
           property={['frequency']}
           min={0}
           max={100}
-          step={0.01}
+          step={1}
           value={frequency}
           handleChange={this.handlePropertyValueChange}
         />
 
-        <Slider
-          name="Delay Time"
-          property={['delayTime']}
-          min={0}
-          max={30}
-          step={1}
-          value={delayTime}
+        <ButtonSet
+          name="Type"
+          property={['type']}
+          value={type}
+          options={oscillatorTypes}
           handleChange={this.handlePropertyValueChange}
         />
 
@@ -95,7 +87,7 @@ export default class ChorusEffect extends Component {
           name="Spread"
           property={['spread']}
           min={0}
-          max={360}
+          max={180}
           step={1}
           value={spread}
           handleChange={this.handlePropertyValueChange}
@@ -105,7 +97,7 @@ export default class ChorusEffect extends Component {
   }
 }
 
-ChorusEffect.propTypes = {
+TremoloEffect.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   node: PropTypes.object.isRequired,
