@@ -178,17 +178,380 @@ export default class SynthContainer extends PureComponent {
     ]
 
     // prettier-ignore
+    // const seq = new Tone.Sequence(
+    //   (time, note) => {
+    //     melodySynthNode.triggerAttackRelease(note, 0.8, time)
+    //   },
+    //   [
+    //     'C4', 'E4', 'G4', 'C4', 'E4', 'G4', 'C4', 'E4', 'G4', 'C4', 'E4', 'G4',
+    //     'E4', 'G4', 'B3', 'E4', 'G4', 'B3', 'E4', 'G4', 'B3', 'E4', 'G4', 'B3'
+    //   ]
+    // ).start(0)
+
+    // const seq = new Tone.Sequence(
+    //   (time, note) => {
+    //     melodySynthNode.triggerAttackRelease(note, '2n.', time)
+    //   },
+    //   ['C4', 'E4', 'G4', 'B3'],
+    //   '1n'
+    // ).start(0)
+
     const seq = new Tone.Sequence(
       (time, note) => {
-        melodySynthNode.triggerAttackRelease(note, 0.8, time)
+        melodySynthNode.triggerAttackRelease(note, '1m', time)
       },
-      [
-        'C4', 'E4', 'G4', 'C4', 'E4', 'G4', 'C4', 'E4', 'G4', 'C4', 'E4', 'G4',
-        'E4', 'G4', 'B3', 'E4', 'G4', 'B3', 'E4', 'G4', 'B3', 'E4', 'G4', 'B3'
-      ]
+      ['C4', 'D4', 'E3', 'E4'],
+      '1m'
     ).start(0)
 
+    // const v = 1
+    //
+    // const part = new Tone.Part(
+    //   function (time, note) {
+    //     melodySynthNode.triggerAttackRelease(
+    //       note.noteName,
+    //       note.duration,
+    //       time,
+    //       note.velocity
+    //     )
+    //   },
+    //   [
+    //     {
+    //       time: '0:0:0',
+    //       noteName: 'F4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '0:0:1',
+    //       noteName: 'A4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '0:0:3',
+    //       noteName: 'G4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '0:1:0',
+    //       noteName: 'B4',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '0:1:0.5',
+    //       noteName: 'C5',
+    //       // noteName: 'C#5',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '0:1:1',
+    //       noteName: 'E4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '0:1:2',
+    //       noteName: 'G4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '0:1:3',
+    //       noteName: 'A4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '0:2:0',
+    //       noteName: 'F4',
+    //       // noteName: 'F#4',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '0:2:0.5',
+    //       noteName: 'E4',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '0:2:1',
+    //       noteName: 'G4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '0:2:3',
+    //       noteName: 'D4',
+    //       // noteName: 'D#4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '0:3:1',
+    //       noteName: 'A4',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '0:3:1.5',
+    //       noteName: 'B4',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '0:3:2',
+    //       noteName: 'A4',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '0:3:2.5',
+    //       noteName: 'B4',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '1:0:0',
+    //       noteName: 'G4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '1:0:1',
+    //       noteName: 'G4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '1:0:2',
+    //       noteName: 'G4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '1:0:3',
+    //       noteName: 'A4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '1:1:0',
+    //       noteName: 'B4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '1:1:1',
+    //       noteName: 'B4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '1:1:2',
+    //       noteName: 'B4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '1:1:3',
+    //       noteName: 'A4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '1:2:0',
+    //       noteName: 'G4',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '1:2:0.5',
+    //       noteName: 'A4',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '1:2:1',
+    //       noteName: 'G4',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '1:2:1.5',
+    //       noteName: 'A4',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '1:3:1',
+    //       noteName: 'F4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '1:3:2',
+    //       noteName: 'G4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '2:0:0',
+    //       noteName: 'A4',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '2:0:0.5',
+    //       noteName: 'G4',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '2:0:1',
+    //       noteName: 'A4',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '2:0:1.5',
+    //       noteName: 'G4',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '2:0:2',
+    //       noteName: 'B4',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '2:0:3',
+    //       noteName: 'C5',
+    //       duration: '1n',
+    //       // 0.5
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '2:1:0',
+    //       noteName: 'C5',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '2:1:1',
+    //       noteName: 'C5',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '2:1:2',
+    //       noteName: 'C5',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '2:2:1',
+    //       noteName: 'A4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '2:2:3',
+    //       noteName: 'G4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '2:3:1',
+    //       noteName: 'E4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '2:3:3',
+    //       noteName: 'D4',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '3:0:1',
+    //       noteName: 'C4',
+    //       duration: '1n',
+    //       velocity: v
+    //     }
+    //   ]
+    // )
+    //
+    // part.loopEnd = '4m'
+
+    // const v = 1
+    //
+    // const part = new Tone.Part(
+    //   function (time, note) {
+    //     melodySynthNode.triggerAttackRelease(
+    //       note.noteName,
+    //       note.duration,
+    //       time,
+    //       note.velocity
+    //     )
+    //   },
+    //   [
+    //     {
+    //       time: '0:0:0',
+    //       noteName: 'C3',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '1:0:0',
+    //       noteName: 'D3',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '2:0:0',
+    //       noteName: 'B2',
+    //       duration: '1n',
+    //       velocity: v
+    //     },
+    //     {
+    //       time: '3:0:0',
+    //       noteName: 'E3',
+    //       duration: '1n',
+    //       velocity: v
+    //     }
+    //   ]
+    // )
+    //
+    // part.loopEnd = '4m'
+
+    Tone.Transport.bpm.value = 120
     Tone.Transport.start()
+
+    // part.loop = true
+    // part.start()
 
     this.setState({
       instruments
