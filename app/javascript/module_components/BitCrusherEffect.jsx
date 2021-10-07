@@ -1,20 +1,33 @@
+//
+//
+//
+//
+//
+//
+// Not working
+//
+//
+//
+//
+//
+//
+
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
 import Slider from '../control_components/Slider'
 
-export default class FreeverbEffect extends Component {
+export default class BitCrusherEffect extends Component {
   constructor(props) {
     super(props)
   }
 
   updateNodeParams = () => {
     const { node, settings } = this.props
-    const { wet, roomSize, dampening } = settings
+    const { wet, bits } = settings
 
     node.wet.value = wet
-    node.roomSize.value = roomSize
-    node.dampening = dampening
+    node.bits = bits
   }
 
   handlePropertyValueChange = (property, value) => {
@@ -24,12 +37,12 @@ export default class FreeverbEffect extends Component {
 
   render() {
     const { name, settings } = this.props
-    const { wet, roomSize, dampening } = settings
+    const { wet, bits } = settings
 
     this.updateNodeParams()
 
     return (
-      <div className="FreeverbEffect">
+      <div className="BitCrusherEffect">
         <h1>{name}</h1>
 
         <Slider
@@ -43,22 +56,12 @@ export default class FreeverbEffect extends Component {
         />
 
         <Slider
-          name="Room Size"
-          property={['roomSize']}
+          name="Bits"
+          property={['bits']}
           min={0}
-          max={1}
-          step={0.01}
-          value={roomSize}
-          handleChange={this.handlePropertyValueChange}
-        />
-
-        <Slider
-          name="Dampening"
-          property={['dampening']}
-          min={0}
-          max={1000}
-          step={1}
-          value={dampening}
+          max={16}
+          step={4}
+          value={bits}
           handleChange={this.handlePropertyValueChange}
         />
       </div>
@@ -66,7 +69,7 @@ export default class FreeverbEffect extends Component {
   }
 }
 
-FreeverbEffect.propTypes = {
+BitCrusherEffect.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   node: PropTypes.object.isRequired,

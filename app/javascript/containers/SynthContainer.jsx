@@ -1,6 +1,7 @@
 import * as Tone from 'tone'
 import * as melodySynth from '../tunes/melody_synth'
 import * as bassSynth from '../tunes/bass_synth'
+import * as spaceSynth from '../tunes/space_synth'
 
 import React, { PureComponent } from 'react'
 
@@ -32,8 +33,14 @@ export default class SynthContainer extends PureComponent {
 
     melodySynth.part.start()
     bassSynth.sequention.start(0)
+    spaceSynth.sequention.start(0)
 
-    const instruments = [melodySynth.instrument, bassSynth.instrument]
+    const instruments = [
+      melodySynth.instrument,
+      bassSynth.instrument,
+      spaceSynth.instrument
+    ]
+
     this.setState({ instruments })
   }
 

@@ -53,7 +53,7 @@ const instrument = [
   {
     id: generateUniqId(),
     name: 'Freeverb',
-    type: 'Freeverb',
+    type: 'FreeverbEffect',
     node: freeverbNode,
     settings: freeverbSettings
   },

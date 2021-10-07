@@ -4,20 +4,18 @@ import React, { Component } from 'react'
 import Slider from '../control_components/Slider'
 import ButtonSet from '../control_components/ButtonSet'
 
-export default class TremoloEffect extends Component {
+export default class DistortionEffect extends Component {
   constructor(props) {
     super(props)
   }
 
   updateNodeParams = () => {
     const { node, settings } = this.props
-    const { wet, frequency, type, depth, spread } = settings
+    const { wet, distortion, oversample } = settings
 
     node.wet.value = wet
-    node.frequency.value = frequency
-    node.type = type
-    node.depth.value = depth
-    node.spread = spread
+    node.distortion = distortion
+    node.oversample = oversample
   }
 
   handlePropertyValueChange = (property, value) => {
@@ -27,13 +25,13 @@ export default class TremoloEffect extends Component {
 
   render() {
     const { name, settings } = this.props
-    const { wet, type, frequency, delayTime, depth, spread } = settings
-    const oscillatorTypes = ['sine', 'square', 'triangle', 'sawtooth']
+    const { wet, distortion, oversample } = settings
+    const oversampleTypes = ['none', '2x', '4x']
 
     this.updateNodeParams()
 
     return (
-      <div className="TremoloEffect">
+      <div className="DistortionEffect">
         <h1>{name}</h1>
 
         <Slider
@@ -47,40 +45,20 @@ export default class TremoloEffect extends Component {
         />
 
         <Slider
-          name="Frequency"
-          property={['frequency']}
+          name="Distortion"
+          property={['distortion']}
           min={0}
-          max={100}
-          step={1}
-          value={frequency}
+          max={20}
+          step={0.01}
+          value={distortion}
           handleChange={this.handlePropertyValueChange}
         />
 
         <ButtonSet
-          name="Type"
-          property={['type']}
-          value={type}
-          options={oscillatorTypes}
-          handleChange={this.handlePropertyValueChange}
-        />
-
-        <Slider
-          name="Depth"
-          property={['depth']}
-          min={0}
-          max={1}
-          step={0.01}
-          value={depth}
-          handleChange={this.handlePropertyValueChange}
-        />
-
-        <Slider
-          name="Spread"
-          property={['spread']}
-          min={0}
-          max={180}
-          step={1}
-          value={spread}
+          name="Oversample"
+          property={['oversample']}
+          value={oversample}
+          options={oversampleTypes}
           handleChange={this.handlePropertyValueChange}
         />
       </div>
@@ -88,7 +66,7 @@ export default class TremoloEffect extends Component {
   }
 }
 
-TremoloEffect.propTypes = {
+DistortionEffect.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   node: PropTypes.object.isRequired,

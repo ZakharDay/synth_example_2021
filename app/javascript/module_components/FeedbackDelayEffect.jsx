@@ -2,22 +2,19 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
 import Slider from '../control_components/Slider'
-import ButtonSet from '../control_components/ButtonSet'
 
-export default class TremoloEffect extends Component {
+export default class FeedbackDelayEffect extends Component {
   constructor(props) {
     super(props)
   }
 
   updateNodeParams = () => {
     const { node, settings } = this.props
-    const { wet, frequency, type, depth, spread } = settings
+    const { wet, delayTime, maxDelay } = settings
 
     node.wet.value = wet
-    node.frequency.value = frequency
-    node.type = type
-    node.depth.value = depth
-    node.spread = spread
+    node.delayTime.value = delayTime
+    node.maxDelay = maxDelay
   }
 
   handlePropertyValueChange = (property, value) => {
@@ -27,13 +24,12 @@ export default class TremoloEffect extends Component {
 
   render() {
     const { name, settings } = this.props
-    const { wet, type, frequency, delayTime, depth, spread } = settings
-    const oscillatorTypes = ['sine', 'square', 'triangle', 'sawtooth']
+    const { wet, delayTime, maxDelay } = settings
 
     this.updateNodeParams()
 
     return (
-      <div className="TremoloEffect">
+      <div className="FeedbackDelayEffect">
         <h1>{name}</h1>
 
         <Slider
@@ -47,40 +43,22 @@ export default class TremoloEffect extends Component {
         />
 
         <Slider
-          name="Frequency"
-          property={['frequency']}
+          name="Delay Time"
+          property={['delayTime']}
           min={0}
-          max={100}
-          step={1}
-          value={frequency}
-          handleChange={this.handlePropertyValueChange}
-        />
-
-        <ButtonSet
-          name="Type"
-          property={['type']}
-          value={type}
-          options={oscillatorTypes}
-          handleChange={this.handlePropertyValueChange}
-        />
-
-        <Slider
-          name="Depth"
-          property={['depth']}
-          min={0}
-          max={1}
+          max={0.8}
           step={0.01}
-          value={depth}
+          value={delayTime}
           handleChange={this.handlePropertyValueChange}
         />
 
         <Slider
-          name="Spread"
-          property={['spread']}
+          name="Max Delay"
+          property={['maxDelay']}
           min={0}
-          max={180}
-          step={1}
-          value={spread}
+          max={0.8}
+          step={0.01}
+          value={maxDelay}
           handleChange={this.handlePropertyValueChange}
         />
       </div>
@@ -88,7 +66,7 @@ export default class TremoloEffect extends Component {
   }
 }
 
-TremoloEffect.propTypes = {
+FeedbackDelayEffect.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   node: PropTypes.object.isRequired,

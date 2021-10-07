@@ -9,11 +9,6 @@ export default class VibratoEffect extends Component {
     super(props)
   }
 
-  // Можно спользовать обновление тут, так как
-  // componentDidUpdate() {
-  // this.updateNodeParams()
-  // }
-
   updateNodeParams = () => {
     const { node, settings } = this.props
     const { wet, maxDelay, frequency, depth, type } = settings

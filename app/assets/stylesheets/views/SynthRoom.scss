@@ -6,7 +6,8 @@
   .Row {
     display: flex;
     height: 50vh;
-    overflow: hidden;
+    overflow-x: scroll;
+    overflow-y: hidden;
 
     &:not(:first-child) {
       border-top: 3px solid white;

@@ -8,18 +8,13 @@ export default class PingPongDelayEffect extends Component {
     super(props)
   }
 
-  // Можно спользовать обновление тут, так как
-  // componentDidUpdate() {
-  // this.updateNodeParams()
-  // }
-
   updateNodeParams = () => {
     const { node, settings } = this.props
     const { wet, delayTime, maxDelayTime } = settings
 
     node.wet.value = wet
-    node.delayTime.value = wet
-    node.maxDelayTime = wet
+    node.delayTime.value = delayTime
+    node.maxDelayTime = maxDelayTime
   }
 
   handlePropertyValueChange = (property, value) => {

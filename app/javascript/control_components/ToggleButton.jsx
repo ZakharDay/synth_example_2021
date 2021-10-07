@@ -24,7 +24,7 @@ export default class ToggleButton extends PureComponent {
 }
 
 ToggleButton.propTypes = {
-  text: PropTypes.string.isRequired,
+  // text: PropTypes.string.isRequired,
   isOn: PropTypes.bool,
   handleClick: PropTypes.func.isRequired
 }

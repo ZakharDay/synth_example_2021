@@ -97,35 +97,35 @@ const instrument = [
   {
     id: generateUniqId(),
     name: 'Chorus',
-    type: 'Chorus',
+    type: 'ChorusEffect',
     node: chorusNode,
     settings: chorusSettings
   },
   {
     id: generateUniqId(),
     name: 'Freeverb',
-    type: 'Freeverb',
+    type: 'FreeverbEffect',
     node: freeverbNode,
     settings: freeverbSettings
   },
   {
     id: generateUniqId(),
     name: 'Ping Pong Delay',
-    type: 'PingPongDelay',
+    type: 'PingPongDelayEffect',
     node: pingPongDelayNode,
     settings: pingPongDelaySettings
   },
   {
     id: generateUniqId(),
     name: 'Tremolo',
-    type: 'Tremolo',
+    type: 'TremoloEffect',
     node: tremoloNode,
     settings: tremoloSettings
   },
   {
     id: generateUniqId(),
     name: 'Vibrato',
-    type: 'Vibrato',
+    type: 'VibratoEffect',
     node: vibratoNode,
     settings: vibratoSettings
   },
