@@ -67,6 +67,15 @@ const chebyshevSettings = {
   oversample: 'none'
 }
 
+const chorusSettings = {
+  wet: 0,
+  type: 'sine',
+  frequency: 1.5,
+  delayTime: 3.5,
+  depth: 0.7,
+  spread: 180
+}
+
 const distortionSettings = {
   wet: 0,
   distortion: 0,
@@ -77,6 +86,12 @@ const feedbackDelaySettings = {
   wet: 0,
   delayTime: 0.8,
   maxDelay: 0.8
+}
+
+const freeverbSettings = {
+  wet: 0.9,
+  roomSize: 0.08,
+  dampening: 40
 }
 
 const frequencyShifterSettings = {
@@ -102,6 +117,12 @@ const phaserSettings = {
   baseFrequency: 350
 }
 
+const pingPongDelaySettings = {
+  wet: 0,
+  delayTime: 0.25,
+  maxDelayTime: 1
+}
+
 const pitchShiftSettings = {
   wet: 0,
   pitch: 0,
@@ -121,6 +142,22 @@ const stereoWidenerSettings = {
   width: 0.5
 }
 
+const tremoloSettings = {
+  wet: 0,
+  frequency: 10,
+  type: 'sine',
+  depth: 0.5,
+  spread: 180
+}
+
+const vibratoSettings = {
+  wet: 0,
+  maxDelay: 0.005,
+  frequency: 5,
+  depth: 0.1,
+  type: 'sine'
+}
+
 const channelSettings = {
   volume: -6,
   pan: 0,
@@ -134,15 +171,20 @@ const synthNode = new Tone.Synth(synthSettings)
 // const autoWahNode = new Tone.AutoWah(autoWahSettings)
 // // const bitCrusherNode = new Tone.BitCrusher(bitCrusherSettings)
 // const chebyshevNode = new Tone.Chebyshev(chebyshevSettings)
+// const chorusNode = new Tone.Chorus(chorusSettings)
 // const distortionNode = new Tone.Distortion(distortionSettings)
 // const feedbackDelayNode = new Tone.FeedbackDelay(feedbackDelaySettings)
+// const freeverbNode = new Tone.Freeverb(freeverbSettings)
 // const frequencyShifterNode = new Tone.FrequencyShifter(frequencyShifterSettings)
 // const jcReverbNode = new Tone.JCReverb(jcReverbSettings)
 // // const midSideNode = new Tone.MidSideEffect(midSideSettings)
 // const phaserNode = new Tone.Phaser(phaserSettings)
+// const pingPongDelayNode = new Tone.PingPongDelay(pingPongDelaySettings)
 // const pitchShiftNode = new Tone.PitchShift(pitchShiftSettings)
 // const reverbNode = new Tone.Reverb(reverbSettings)
 // const stereoWidenerNode = new Tone.StereoWidener(stereoWidenerSettings)
+// const tremoloNode = new Tone.Tremolo(tremoloSettings)
+// const vibratoNode = new Tone.Vibrato(vibratoSettings)
 const channelNode = new Tone.Channel(channelSettings).toDestination()
 
 synthNode.chain(
@@ -151,15 +193,20 @@ synthNode.chain(
   // autoWahNode,
   // // bitCrusherNode,
   // chebyshevNode,
+  // chorusNode,
   // distortionNode,
   // feedbackDelayNode,
+  // freeverbNode,
   // frequencyShifterNode,
   // jcReverbNode,
   // // midSideNode,
   // phaserNode,
+  // pingPongDelayNode,
   // pitchShiftNode,
   // reverbNode,
   // stereoWidenerNode,
+  // tremoloNode,
+  // vibratoNode,
   channelNode
 )
 
@@ -208,6 +255,13 @@ const instrument = [
   // },
   // {
   //   id: generateUniqId(),
+  //   name: 'Chorus',
+  //   type: 'ChorusEffect',
+  //   node: chorusNode,
+  //   settings: chorusSettings
+  // },
+  // {
+  //   id: generateUniqId(),
   //   name: 'Distortion',
   //   type: 'DistortionEffect',
   //   node: distortionNode,
@@ -219,6 +273,13 @@ const instrument = [
   //   type: 'FeedbackDelayEffect',
   //   node: feedbackDelayNode,
   //   settings: feedbackDelaySettings
+  // },
+  // {
+  //   id: generateUniqId(),
+  //   name: 'Freeverb',
+  //   type: 'FreeverbEffect',
+  //   node: freeverbNode,
+  //   settings: freeverbSettings
   // },
   // {
   //   id: generateUniqId(),
@@ -250,6 +311,13 @@ const instrument = [
   // },
   // {
   //   id: generateUniqId(),
+  //   name: 'Ping Pong Delay',
+  //   type: 'PingPongDelayEffect',
+  //   node: pingPongDelayNode,
+  //   settings: pingPongDelaySettings
+  // },
+  // {
+  //   id: generateUniqId(),
   //   name: 'Pitch Shift',
   //   type: 'PitchShiftEffect',
   //   node: pitchShiftNode,
@@ -268,6 +336,20 @@ const instrument = [
   //   type: 'StereoWidenerEffect',
   //   node: stereoWidenerNode,
   //   settings: stereoWidenerSettings
+  // },
+  // {
+  //   id: generateUniqId(),
+  //   name: 'Tremolo',
+  //   type: 'TremoloEffect',
+  //   node: tremoloNode,
+  //   settings: tremoloSettings
+  // },
+  // {
+  //   id: generateUniqId(),
+  //   name: 'Vibrato',
+  //   type: 'VibratoEffect',
+  //   node: vibratoNode,
+  //   settings: vibratoSettings
   // },
   {
     id: generateUniqId(),
