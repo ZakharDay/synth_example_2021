@@ -13,7 +13,13 @@ import DistortionEffect from '../module_components/DistortionEffect'
 import FeedbackDelayEffect from '../module_components/FeedbackDelayEffect'
 import FreeverbEffect from '../module_components/FreeverbEffect'
 import FrequencyShifterEffect from '../module_components/FrequencyShifterEffect'
+import JCReverbEffect from '../module_components/JCReverbEffect'
+import MidSideEffect from '../module_components/MidSideEffect'
+import PhaserEffect from '../module_components/PhaserEffect'
 import PingPongDelayEffect from '../module_components/PingPongDelayEffect'
+import PitchShiftEffect from '../module_components/PitchShiftEffect'
+import ReverbEffect from '../module_components/ReverbEffect'
+import StereoWidenerEffect from '../module_components/StereoWidenerEffect'
 import TremoloEffect from '../module_components/TremoloEffect'
 import VibratoEffect from '../module_components/VibratoEffect'
 
@@ -46,198 +52,19 @@ export default class SynthRoom extends PureComponent {
           FeedbackDelayEffect: FeedbackDelayEffect,
           FreeverbEffect: FreeverbEffect,
           FrequencyShifterEffect: FrequencyShifterEffect,
+          JCReverbEffect: JCReverbEffect,
+          MidSideEffect: MidSideEffect,
+          PhaserEffect: PhaserEffect,
           PingPongDelayEffect: PingPongDelayEffect,
+          PitchShiftEffect: PitchShiftEffect,
+          ReverbEffect: ReverbEffect,
+          StereoWidenerEffect: StereoWidenerEffect,
           TremoloEffect: TremoloEffect,
           VibratoEffect: VibratoEffect,
           Channel: Channel
         }
 
         const ComponentType = components[type]
-
-        // let instrumentModuleElement
-        //
-        // switch (type) {
-        //   case 'ToneSynth':
-        //     instrumentModuleElement = (
-        //       <ToneSynth
-        //         id={id}
-        //         name={name}
-        //         node={node}
-        //         settings={settings}
-        //         handlePropertyValueChange={handlePropertyValueChange}
-        //         key={i}
-        //       />
-        //     )
-        //     break
-        //   case 'AutoFilter':
-        //     instrumentModuleElement = (
-        //       <AutoFilterEffect
-        //         id={id}
-        //         name={name}
-        //         node={node}
-        //         settings={settings}
-        //         handlePropertyValueChange={handlePropertyValueChange}
-        //         key={i}
-        //       />
-        //     )
-        //     break
-        //   case 'AutoPanner':
-        //     instrumentModuleElement = (
-        //       <AutoPannerEffect
-        //         id={id}
-        //         name={name}
-        //         node={node}
-        //         settings={settings}
-        //         handlePropertyValueChange={handlePropertyValueChange}
-        //         key={i}
-        //       />
-        //     )
-        //     break
-        //   case 'AutoWah':
-        //     instrumentModuleElement = (
-        //       <AutoWahEffect
-        //         id={id}
-        //         name={name}
-        //         node={node}
-        //         settings={settings}
-        //         handlePropertyValueChange={handlePropertyValueChange}
-        //         key={i}
-        //       />
-        //     )
-        //     break
-        //   case 'BitCrusher':
-        //     instrumentModuleElement = (
-        //       <BitCrusherEffect
-        //         id={id}
-        //         name={name}
-        //         node={node}
-        //         settings={settings}
-        //         handlePropertyValueChange={handlePropertyValueChange}
-        //         key={i}
-        //       />
-        //     )
-        //     break
-        //   case 'Chebyshev':
-        //     instrumentModuleElement = (
-        //       <ChebyshevEffect
-        //         id={id}
-        //         name={name}
-        //         node={node}
-        //         settings={settings}
-        //         handlePropertyValueChange={handlePropertyValueChange}
-        //         key={i}
-        //       />
-        //     )
-        //     break
-        //   case 'Chorus':
-        //     instrumentModuleElement = (
-        //       <ChorusEffect
-        //         id={id}
-        //         name={name}
-        //         node={node}
-        //         settings={settings}
-        //         handlePropertyValueChange={handlePropertyValueChange}
-        //         key={i}
-        //       />
-        //     )
-        //     break
-        //   case 'Distortion':
-        //     instrumentModuleElement = (
-        //       <DistortionEffect
-        //         id={id}
-        //         name={name}
-        //         node={node}
-        //         settings={settings}
-        //         handlePropertyValueChange={handlePropertyValueChange}
-        //         key={i}
-        //       />
-        //     )
-        //     break
-        //   case 'FeedbackDelay':
-        //     instrumentModuleElement = (
-        //       <FeedbackDelayEffect
-        //         id={id}
-        //         name={name}
-        //         node={node}
-        //         settings={settings}
-        //         handlePropertyValueChange={handlePropertyValueChange}
-        //         key={i}
-        //       />
-        //     )
-        //     break
-        //   case 'Freeverb':
-        //     instrumentModuleElement = (
-        //       <FreeverbEffect
-        //         id={id}
-        //         name={name}
-        //         node={node}
-        //         settings={settings}
-        //         handlePropertyValueChange={handlePropertyValueChange}
-        //         key={i}
-        //       />
-        //     )
-        //     break
-        //   case 'FrequencyShifter':
-        //     instrumentModuleElement = (
-        //       <FrequencyShifterEffect
-        //         id={id}
-        //         name={name}
-        //         node={node}
-        //         settings={settings}
-        //         handlePropertyValueChange={handlePropertyValueChange}
-        //         key={i}
-        //       />
-        //     )
-        //     break
-        //   case 'PingPongDelay':
-        //     instrumentModuleElement = (
-        //       <PingPongDelayEffect
-        //         id={id}
-        //         name={name}
-        //         node={node}
-        //         settings={settings}
-        //         handlePropertyValueChange={handlePropertyValueChange}
-        //         key={i}
-        //       />
-        //     )
-        //     break
-        //   case 'Tremolo':
-        //     instrumentModuleElement = (
-        //       <TremoloEffect
-        //         id={id}
-        //         name={name}
-        //         node={node}
-        //         settings={settings}
-        //         handlePropertyValueChange={handlePropertyValueChange}
-        //         key={i}
-        //       />
-        //     )
-        //     break
-        //   case 'Vibrato':
-        //     instrumentModuleElement = (
-        //       <VibratoEffect
-        //         id={id}
-        //         name={name}
-        //         node={node}
-        //         settings={settings}
-        //         handlePropertyValueChange={handlePropertyValueChange}
-        //         key={i}
-        //       />
-        //     )
-        //     break
-        //   case 'Channel':
-        //     instrumentModuleElement = (
-        //       <Channel
-        //         id={id}
-        //         name={name}
-        //         node={node}
-        //         settings={settings}
-        //         handlePropertyValueChange={handlePropertyValueChange}
-        //         key={i}
-        //       />
-        //     )
-        //     break
-        // }
 
         instrumentModuleElements.push(
           <ComponentType

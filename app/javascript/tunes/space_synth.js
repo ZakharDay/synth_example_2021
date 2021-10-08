@@ -84,6 +84,43 @@ const frequencyShifterSettings = {
   frequency: 42
 }
 
+const jcReverbSettings = {
+  wet: 0,
+  roomSize: 0.5
+}
+
+const midSideSettings = {
+  wet: 0
+}
+
+const phaserSettings = {
+  wet: 0,
+  frequency: 0.5,
+  octaves: 3,
+  stages: 10,
+  Q: 10,
+  baseFrequency: 350
+}
+
+const pitchShiftSettings = {
+  wet: 0,
+  pitch: 0,
+  windowSize: 0.1,
+  delayTime: 0,
+  feedback: 0
+}
+
+const reverbSettings = {
+  wet: 0,
+  decay: 1.5,
+  preDelay: 0.01
+}
+
+const stereoWidenerSettings = {
+  wet: 0,
+  width: 0.5
+}
+
 const channelSettings = {
   volume: -6,
   pan: 0,
@@ -92,25 +129,37 @@ const channelSettings = {
 }
 
 const synthNode = new Tone.Synth(synthSettings)
-const autoFilterNode = new Tone.AutoFilter(autoFilterSettings).start()
-const autoPannerNode = new Tone.AutoPanner(autoPannerSettings).start()
-const autoWahNode = new Tone.AutoWah(autoWahSettings)
+// const autoFilterNode = new Tone.AutoFilter(autoFilterSettings).start()
+// const autoPannerNode = new Tone.AutoPanner(autoPannerSettings).start()
+// const autoWahNode = new Tone.AutoWah(autoWahSettings)
 // const bitCrusherNode = new Tone.BitCrusher(bitCrusherSettings)
-const chebyshevNode = new Tone.Chebyshev(chebyshevSettings)
-const distortionNode = new Tone.Distortion(distortionSettings)
-const feedbackDelayNode = new Tone.FeedbackDelay(feedbackDelaySettings)
-const frequencyShifterNode = new Tone.FrequencyShifter(frequencyShifterSettings)
+// const chebyshevNode = new Tone.Chebyshev(chebyshevSettings)
+// const distortionNode = new Tone.Distortion(distortionSettings)
+// const feedbackDelayNode = new Tone.FeedbackDelay(feedbackDelaySettings)
+// const frequencyShifterNode = new Tone.FrequencyShifter(frequencyShifterSettings)
+// const jcReverbNode = new Tone.JCReverb(jcReverbSettings)
+// const midSideNode = new Tone.MidSideEffect(midSideSettings)
+// const phaserNode = new Tone.Phaser(phaserSettings)
+// const pitchShiftNode = new Tone.PitchShift(pitchShiftSettings)
+// const reverbNode = new Tone.Reverb(reverbSettings)
+// const stereoWidenerNode = new Tone.StereoWidener(stereoWidenerSettings)
 const channelNode = new Tone.Channel(channelSettings).toDestination()
 
 synthNode.chain(
-  autoFilterNode,
-  autoPannerNode,
-  autoWahNode,
-  // bitCrusherNode,
-  chebyshevNode,
-  distortionNode,
-  feedbackDelayNode,
-  frequencyShifterNode,
+  // autoFilterNode,
+  // autoPannerNode,
+  // autoWahNode,
+  // // bitCrusherNode,
+  // chebyshevNode,
+  // distortionNode,
+  // feedbackDelayNode,
+  // frequencyShifterNode,
+  // jcReverbNode,
+  // midSideNode,
+  // phaserNode,
+  // pitchShiftNode,
+  // reverbNode,
+  // stereoWidenerNode,
   channelNode
 )
 
@@ -122,27 +171,27 @@ const instrument = [
     node: synthNode,
     settings: synthSettings
   },
-  {
-    id: generateUniqId(),
-    name: 'Auto Filter',
-    type: 'AutoFilterEffect',
-    node: autoFilterNode,
-    settings: autoFilterSettings
-  },
-  {
-    id: generateUniqId(),
-    name: 'Auto Panner',
-    type: 'AutoPannerEffect',
-    node: autoPannerNode,
-    settings: autoPannerSettings
-  },
-  {
-    id: generateUniqId(),
-    name: 'Auto Wah',
-    type: 'AutoWahEffect',
-    node: autoWahNode,
-    settings: autoWahSettings
-  },
+  // {
+  //   id: generateUniqId(),
+  //   name: 'Auto Filter',
+  //   type: 'AutoFilterEffect',
+  //   node: autoFilterNode,
+  //   settings: autoFilterSettings
+  // },
+  // {
+  //   id: generateUniqId(),
+  //   name: 'Auto Panner',
+  //   type: 'AutoPannerEffect',
+  //   node: autoPannerNode,
+  //   settings: autoPannerSettings
+  // },
+  // {
+  //   id: generateUniqId(),
+  //   name: 'Auto Wah',
+  //   type: 'AutoWahEffect',
+  //   node: autoWahNode,
+  //   settings: autoWahSettings
+  // },
   // {
   //   id: generateUniqId(),
   //   name: 'Bit Crusher',
@@ -150,34 +199,76 @@ const instrument = [
   //   node: bitCrusherNode,
   //   settings: bitCrusherSettings
   // },
+  // {
+  //   id: generateUniqId(),
+  //   name: 'Chebyshev',
+  //   type: 'ChebyshevEffect',
+  //   node: chebyshevNode,
+  //   settings: chebyshevSettings
+  // },
+  // {
+  //   id: generateUniqId(),
+  //   name: 'Distortion',
+  //   type: 'DistortionEffect',
+  //   node: distortionNode,
+  //   settings: distortionSettings
+  // },
+  // {
+  //   id: generateUniqId(),
+  //   name: 'Feedback Delay',
+  //   type: 'FeedbackDelayEffect',
+  //   node: feedbackDelayNode,
+  //   settings: feedbackDelaySettings
+  // },
+  // {
+  //   id: generateUniqId(),
+  //   name: 'Frequency Shift',
+  //   type: 'FrequencyShifterEffect',
+  //   node: frequencyShifterNode,
+  //   settings: frequencyShifterSettings
+  // },
+  // {
+  //   id: generateUniqId(),
+  //   name: 'JC Reverb',
+  //   type: 'JCReverbEffect',
+  //   node: jcReverbNode,
+  //   settings: jcReverbSettings
+  // },
   {
     id: generateUniqId(),
-    name: 'Chebyshev',
-    type: 'ChebyshevEffect',
-    node: chebyshevNode,
-    settings: chebyshevSettings
+    name: 'Mid Side Effect',
+    type: 'MidSideEffect',
+    node: midSideNode,
+    settings: midSideSettings
   },
-  {
-    id: generateUniqId(),
-    name: 'Distortion',
-    type: 'DistortionEffect',
-    node: distortionNode,
-    settings: distortionSettings
-  },
-  {
-    id: generateUniqId(),
-    name: 'Feedback Delay',
-    type: 'FeedbackDelayEffect',
-    node: feedbackDelayNode,
-    settings: feedbackDelaySettings
-  },
-  {
-    id: generateUniqId(),
-    name: 'Frequency Shifter',
-    type: 'FrequencyShifterEffect',
-    node: frequencyShifterNode,
-    settings: frequencyShifterSettings
-  },
+  // {
+  //   id: generateUniqId(),
+  //   name: 'Phaser',
+  //   type: 'PhaserEffect',
+  //   node: phaserNode,
+  //   settings: phaserSettings
+  // },
+  // {
+  //   id: generateUniqId(),
+  //   name: 'Pitch Shift',
+  //   type: 'PitchShiftEffect',
+  //   node: pitchShiftNode,
+  //   settings: pitchShiftSettings
+  // },
+  // {
+  //   id: generateUniqId(),
+  //   name: 'Reverb',
+  //   type: 'ReverbEffect',
+  //   node: reverbNode,
+  //   settings: reverbSettings
+  // },
+  // {
+  //   id: generateUniqId(),
+  //   name: 'Stereo Widener',
+  //   type: 'StereoWidenerEffect',
+  //   node: stereoWidenerNode,
+  //   settings: stereoWidenerSettings
+  // },
   {
     id: generateUniqId(),
     name: 'Channel',
