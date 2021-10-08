@@ -6,12 +6,12 @@ const synthSettings = {
   detune: 0,
   portamento: 0.05,
   envelope: {
-    attack: 0.05,
+    attack: 0,
     attackCurve: 'exponential',
-    decay: 0.2,
+    decay: 0,
     decayCurve: 'exponential',
-    sustain: 0.2,
-    release: 1.5,
+    sustain: 1,
+    release: 0,
     releaseCurve: 'exponential'
   },
   oscillator: {
@@ -180,8 +180,8 @@ const synthNode = new Tone.Synth(synthSettings)
 // // const midSideNode = new Tone.MidSideEffect(midSideSettings)
 // const phaserNode = new Tone.Phaser(phaserSettings)
 // const pingPongDelayNode = new Tone.PingPongDelay(pingPongDelaySettings)
-// const pitchShiftNode = new Tone.PitchShift(pitchShiftSettings)
-// const reverbNode = new Tone.Reverb(reverbSettings)
+const pitchShiftNode = new Tone.PitchShift(pitchShiftSettings)
+const reverbNode = new Tone.Reverb(reverbSettings)
 // const stereoWidenerNode = new Tone.StereoWidener(stereoWidenerSettings)
 // const tremoloNode = new Tone.Tremolo(tremoloSettings)
 // const vibratoNode = new Tone.Vibrato(vibratoSettings)
@@ -202,8 +202,8 @@ synthNode.chain(
   // // midSideNode,
   // phaserNode,
   // pingPongDelayNode,
-  // pitchShiftNode,
-  // reverbNode,
+  pitchShiftNode,
+  reverbNode,
   // stereoWidenerNode,
   // tremoloNode,
   // vibratoNode,
@@ -316,20 +316,20 @@ const instrument = [
   //   node: pingPongDelayNode,
   //   settings: pingPongDelaySettings
   // },
-  // {
-  //   id: generateUniqId(),
-  //   name: 'Pitch Shift',
-  //   type: 'PitchShiftEffect',
-  //   node: pitchShiftNode,
-  //   settings: pitchShiftSettings
-  // },
-  // {
-  //   id: generateUniqId(),
-  //   name: 'Reverb',
-  //   type: 'ReverbEffect',
-  //   node: reverbNode,
-  //   settings: reverbSettings
-  // },
+  {
+    id: generateUniqId(),
+    name: 'Pitch Shift',
+    type: 'PitchShiftEffect',
+    node: pitchShiftNode,
+    settings: pitchShiftSettings
+  },
+  {
+    id: generateUniqId(),
+    name: 'Reverb',
+    type: 'ReverbEffect',
+    node: reverbNode,
+    settings: reverbSettings
+  },
   // {
   //   id: generateUniqId(),
   //   name: 'Stereo Widener',
@@ -360,12 +360,161 @@ const instrument = [
   }
 ]
 
-const sequention = new Tone.Sequence(
-  (time, note) => {
-    synthNode.triggerAttackRelease(note, '1m', time)
+const v = 1
+
+const part = new Tone.Part(
+  function (time, note) {
+    synthNode.triggerAttackRelease(
+      note.noteName,
+      note.duration,
+      time,
+      note.velocity
+    )
   },
-  ['C3', 'D3', 'E2', 'E3'],
-  '1m'
+  // ['C3', 'D3', 'E2', 'E3']
+  [
+    {
+      time: '0:0:0',
+      noteName: 'C4',
+      duration: '1n',
+      velocity: v
+    },
+    {
+      time: '1:0:0',
+      noteName: 'D3',
+      duration: '4n',
+      velocity: v
+    },
+    {
+      time: '1:1:0',
+      noteName: 'E3',
+      duration: '4n',
+      velocity: v
+    },
+    {
+      time: '1:3:0',
+      noteName: 'D3',
+      duration: '4n',
+      velocity: v
+    },
+    {
+      time: '2:0:0',
+      noteName: 'D3',
+      duration: '4n',
+      velocity: v
+    },
+    {
+      time: '2:3:0',
+      noteName: 'E3',
+      duration: '4n',
+      velocity: v
+    },
+    {
+      time: '4:1:0',
+      noteName: 'C4',
+      duration: '4n',
+      velocity: v
+    },
+    {
+      time: '4:2:0',
+      noteName: 'A4',
+      duration: '4n',
+      velocity: v
+    },
+    {
+      time: '5:0:0',
+      noteName: 'B4',
+      duration: '2n',
+      velocity: v
+    },
+    {
+      time: '5:2:0',
+      noteName: 'C3',
+      duration: '1n',
+      velocity: v
+    },
+    {
+      time: '5:3:0',
+      noteName: 'E3',
+      duration: '1n',
+      velocity: v
+    }
+    // {
+    //   time: '0:0:0',
+    //   noteName: 'C4',
+    //   duration: '1n',
+    //   velocity: v
+    // },
+    // {
+    //   time: '0:1:0',
+    //   noteName: 'E4',
+    //   duration: '1n',
+    //   velocity: v
+    // },
+    // {
+    //   time: '0:2:0',
+    //   noteName: 'G4',
+    //   duration: '1n',
+    //   velocity: v
+    // },
+    // {
+    //   time: '1:0:0',
+    //   noteName: 'D4',
+    //   duration: '1n',
+    //   velocity: v
+    // },
+    // {
+    //   time: '1:1:0',
+    //   noteName: 'G4',
+    //   duration: '1n',
+    //   velocity: v
+    // },
+    // {
+    //   time: '1:2:0',
+    //   noteName: 'B4',
+    //   duration: '1n',
+    //   velocity: v
+    // },
+    // {
+    //   time: '2:0:0',
+    //   noteName: 'B3',
+    //   duration: '1n',
+    //   velocity: v
+    // },
+    // {
+    //   time: '2:1:0',
+    //   noteName: 'E3',
+    //   duration: '1n',
+    //   velocity: v
+    // },
+    // {
+    //   time: '2:2:0',
+    //   noteName: 'G3',
+    //   duration: '1n',
+    //   velocity: v
+    // },
+    // {
+    //   time: '3:0:0',
+    //   noteName: 'E4',
+    //   duration: '1n',
+    //   velocity: v
+    // }
+    // {
+    //   time: '3:1:0',
+    //   noteName: 'G4',
+    //   duration: '1n',
+    //   velocity: v
+    // },
+    // {
+    //   time: '3:2:0',
+    //   noteName: 'B4',
+    //   duration: '1n',
+    //   velocity: v
+    // }
+  ]
 )
 
-export { instrument, sequention }
+part.loopEnd = '4m'
+part.loop = true
+
+export { instrument, part }
