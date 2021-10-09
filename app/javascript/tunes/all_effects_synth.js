@@ -360,161 +360,84 @@ const instrument = [
   }
 ]
 
-const v = 1
-
-const part = new Tone.Part(
-  function (time, note) {
-    synthNode.triggerAttackRelease(
-      note.noteName,
-      note.duration,
-      time,
-      note.velocity
-    )
+function sequention1() {
+  // prettier-ignore
+  const s = new Tone.Sequence(
+  (time, note) => {
+    synthNode.triggerAttackRelease(note, '16n', time)
   },
-  // ['C3', 'D3', 'E2', 'E3']
   [
-    {
-      time: '0:0:0',
-      noteName: 'C4',
-      duration: '1n',
-      velocity: v
-    },
-    {
-      time: '1:0:0',
-      noteName: 'D3',
-      duration: '4n',
-      velocity: v
-    },
-    {
-      time: '1:1:0',
-      noteName: 'E3',
-      duration: '4n',
-      velocity: v
-    },
-    {
-      time: '1:3:0',
-      noteName: 'D3',
-      duration: '4n',
-      velocity: v
-    },
-    {
-      time: '2:0:0',
-      noteName: 'D3',
-      duration: '4n',
-      velocity: v
-    },
-    {
-      time: '2:3:0',
-      noteName: 'E3',
-      duration: '4n',
-      velocity: v
-    },
-    {
-      time: '4:1:0',
-      noteName: 'C4',
-      duration: '4n',
-      velocity: v
-    },
-    {
-      time: '4:2:0',
-      noteName: 'A4',
-      duration: '4n',
-      velocity: v
-    },
-    {
-      time: '5:0:0',
-      noteName: 'B4',
-      duration: '2n',
-      velocity: v
-    },
-    {
-      time: '5:2:0',
-      noteName: 'C3',
-      duration: '1n',
-      velocity: v
-    },
-    {
-      time: '5:3:0',
-      noteName: 'E3',
-      duration: '1n',
-      velocity: v
-    }
-    // {
-    //   time: '0:0:0',
-    //   noteName: 'C4',
-    //   duration: '1n',
-    //   velocity: v
-    // },
-    // {
-    //   time: '0:1:0',
-    //   noteName: 'E4',
-    //   duration: '1n',
-    //   velocity: v
-    // },
-    // {
-    //   time: '0:2:0',
-    //   noteName: 'G4',
-    //   duration: '1n',
-    //   velocity: v
-    // },
-    // {
-    //   time: '1:0:0',
-    //   noteName: 'D4',
-    //   duration: '1n',
-    //   velocity: v
-    // },
-    // {
-    //   time: '1:1:0',
-    //   noteName: 'G4',
-    //   duration: '1n',
-    //   velocity: v
-    // },
-    // {
-    //   time: '1:2:0',
-    //   noteName: 'B4',
-    //   duration: '1n',
-    //   velocity: v
-    // },
-    // {
-    //   time: '2:0:0',
-    //   noteName: 'B3',
-    //   duration: '1n',
-    //   velocity: v
-    // },
-    // {
-    //   time: '2:1:0',
-    //   noteName: 'E3',
-    //   duration: '1n',
-    //   velocity: v
-    // },
-    // {
-    //   time: '2:2:0',
-    //   noteName: 'G3',
-    //   duration: '1n',
-    //   velocity: v
-    // },
-    // {
-    //   time: '3:0:0',
-    //   noteName: 'E4',
-    //   duration: '1n',
-    //   velocity: v
-    // }
-    // {
-    //   time: '3:1:0',
-    //   noteName: 'G4',
-    //   duration: '1n',
-    //   velocity: v
-    // },
-    // {
-    //   time: '3:2:0',
-    //   noteName: 'B4',
-    //   duration: '1n',
-    //   velocity: v
-    // }
-  ]
+    [
+      [
+        [
+          [
+            'C3', null, 'D4', null,
+            'C3', null, 'D4', null,
+            'C3', null, 'D4', null,
+            'C3', null, 'D4', null
+          ]
+        ]
+      ]
+    ]
+  ],
+  '1m'
 )
 
-part.loopEnd = '4m'
-part.loop = true
+  return s
+}
 
-export { instrument, part }
+function sequention2() {
+  // prettier-ignore
+  const s = new Tone.Sequence(
+  (time, note) => {
+    synthNode.triggerAttackRelease(note, '16n', time)
+  },
+  [
+    [
+      [
+        [
+          [
+            'A4', null, 'E3', null,
+            'A4', null, 'E3', null,
+            'A4', null, 'E3', null,
+            'A4', null, 'E3', null
+          ]
+        ]
+      ]
+    ]
+  ],
+  '1m'
+)
+
+  return s
+}
+
+function sequention3() {
+  // prettier-ignore
+  const s = new Tone.Sequence(
+  (time, note) => {
+    synthNode.triggerAttackRelease(note, '16n', time)
+  },
+  [
+    [
+      [
+        [
+          [
+            'C3', null, 'D3', null,
+            'C3', 'E4', null, 'A3',
+            'C3', null, 'D4', null,
+            'C3', 'A4', null, null
+          ]
+        ]
+      ]
+    ]
+  ],
+  '1m'
+)
+
+  return s
+}
+
+const sequentions = [sequention1, sequention2, sequention3]
+
+export { instrument, sequentions }

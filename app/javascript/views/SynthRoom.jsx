@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 
+import Button from '../control_components/Button'
+
 import ToneSynth from '../module_components/ToneSynth'
 
 import AutoFilterEffect from '../module_components/AutoFilterEffect'
@@ -31,7 +33,12 @@ export default class SynthRoom extends PureComponent {
   }
 
   render() {
-    const { instruments, handlePropertyValueChange } = this.props
+    const {
+      instruments,
+      handlePropertyValueChange,
+      handleSequenceChange
+    } = this.props
+
     const instrumentElements = []
 
     instruments.forEach((instrument, i) => {
@@ -85,7 +92,15 @@ export default class SynthRoom extends PureComponent {
       )
     })
 
-    return <div className="SynthRoom">{instrumentElements}</div>
+    return (
+      <div className="SynthRoom">
+        <Button text="Sequence 1" handleClick={() => handleSequenceChange(0)} />
+        <Button text="Sequence 2" handleClick={() => handleSequenceChange(1)} />
+        <Button text="Sequence 3" handleClick={() => handleSequenceChange(2)} />
+
+        {instrumentElements}
+      </div>
+    )
   }
 }
 
