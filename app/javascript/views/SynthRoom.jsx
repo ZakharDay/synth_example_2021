@@ -4,6 +4,8 @@ import React, { PureComponent } from 'react'
 import Button from '../control_components/Button'
 
 import ToneSynth from '../module_components/ToneSynth'
+import Sampler from '../module_components/Sampler'
+import Sequencer from '../module_components/Sequencer'
 
 import AutoFilterEffect from '../module_components/AutoFilterEffect'
 import AutoPannerEffect from '../module_components/AutoPannerEffect'
@@ -33,12 +35,7 @@ export default class SynthRoom extends PureComponent {
   }
 
   render() {
-    const {
-      instruments,
-      handlePropertyValueChange,
-      handleSequenceChange
-    } = this.props
-
+    const { instruments, handlePropertyValueChange } = this.props
     const instrumentElements = []
 
     instruments.forEach((instrument, i) => {
@@ -49,6 +46,8 @@ export default class SynthRoom extends PureComponent {
 
         const components = {
           ToneSynth: ToneSynth,
+          Sampler: Sampler,
+          Sequencer: Sequencer,
           AutoFilterEffect: AutoFilterEffect,
           AutoPannerEffect: AutoPannerEffect,
           AutoWahEffect: AutoWahEffect,
@@ -92,15 +91,7 @@ export default class SynthRoom extends PureComponent {
       )
     })
 
-    return (
-      <div className="SynthRoom">
-        <Button text="Sequence 1" handleClick={() => handleSequenceChange(0)} />
-        <Button text="Sequence 2" handleClick={() => handleSequenceChange(1)} />
-        <Button text="Sequence 3" handleClick={() => handleSequenceChange(2)} />
-
-        {instrumentElements}
-      </div>
-    )
+    return <div className="SynthRoom">{instrumentElements}</div>
   }
 }
 

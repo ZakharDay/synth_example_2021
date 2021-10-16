@@ -2,7 +2,9 @@ import * as Tone from 'tone'
 // import * as melodySynth from '../tunes/melody_synth'
 // import * as bassSynth from '../tunes/bass_synth'
 // import * as spaceSynth from '../tunes/space_synth'
-import * as allEffectsSynth from '../tunes/all_effects_synth'
+// import * as allEffectsSynth from '../tunes/all_effects_synth'
+import * as drumSampler from '../tunes/drum_sampler'
+import * as sequencedSynth from '../tunes/sequenced_synth'
 
 import React, { PureComponent } from 'react'
 
@@ -36,17 +38,21 @@ export default class SynthContainer extends PureComponent {
     // bassSynth.sequention.start(0)
     // spaceSynth.sequention.start(0)
 
-    const sequention = allEffectsSynth.sequentions[0]().start(0)
+    // const sequention = allEffectsSynth.sequentions[0]().start(0)
     // allEffectsSynth.sequentions[0].start(0)
+
+    // const sequention = drumSampler.part.start()
 
     const instruments = [
       // melodySynth.instrument,
       // bassSynth.instrument
       // spaceSynth.instrument
-      allEffectsSynth.instrument
+      // allEffectsSynth.instrument
+      drumSampler.instrument,
+      sequencedSynth.instrument
     ]
 
-    this.setState({ instruments, sequention })
+    this.setState({ instruments })
   }
 
   handlePropertyValueChange = (id, property, value) => {
@@ -67,6 +73,27 @@ export default class SynthContainer extends PureComponent {
             const scopeName = property[0]
             const propertyName = property[1]
             newInstrumentModule.settings[scopeName][propertyName] = value
+          } else if (property.length === 3) {
+            let searchedEvent
+
+            newInstrumentModule.settings.sequence.forEach((event, i) => {
+              if (
+                event.noteName === property[0] &&
+                event.time === property[1]
+              ) {
+                searchedEvent = event
+                newInstrumentModule.settings.sequence.splice(i, 1)
+              }
+            })
+
+            if (searchedEvent === undefined) {
+              newInstrumentModule.settings.sequence.push({
+                time: property[1],
+                noteName: property[0],
+                duration: '1n',
+                velocity: 1
+              })
+            }
           }
         }
 
@@ -81,16 +108,6 @@ export default class SynthContainer extends PureComponent {
     })
   }
 
-  handleSequenceChange = (key) => {
-    const { sequention } = this.state
-    sequention.clear()
-
-    const newSequention = allEffectsSynth.sequentions[key]()
-    newSequention.start(0)
-
-    this.setState({ sequention: newSequention })
-  }
-
   renderWelcomeScreen = () => {
     return <WelcomeScreen handleStartWebAudio={this.startWebAudio} />
   }
@@ -102,7 +119,6 @@ export default class SynthContainer extends PureComponent {
       <SynthRoom
         instruments={instruments}
         handlePropertyValueChange={this.handlePropertyValueChange}
-        handleSequenceChange={this.handleSequenceChange}
       />
     )
   }
