@@ -75,7 +75,6 @@ export default class Sequencer extends Component {
 
   render() {
     const { name, settings } = this.props
-
     this.updateNodeParams()
 
     return <div className="Sequencer">{this.renderGrid()}</div>

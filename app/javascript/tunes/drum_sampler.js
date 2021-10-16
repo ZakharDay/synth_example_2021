@@ -1,36 +1,64 @@
-let kick = new Tone.Buffer('samples/00007-Linn-9000-Kick-2.mp3', function () {
-  let buff = kick.get()
-})
-
-let snare = new Tone.Buffer(
-  'samples/00024-Linn-AdrenaLinn1-SnareDrum_7.mp3',
-  function () {
-    let buff = snare.get()
-  }
-)
-
-let hat = new Tone.Buffer('samples/00004-Linn-9000-Hhclose2.mp3', function () {
-  let buff = hat.get()
-})
-
-let ride = new Tone.Buffer('samples/00031-Tama-RockStar-Ride.mp3', function () {
-  let buff = ride.get()
-})
-
 import * as Tone from 'tone'
 import { generateUniqId } from '../utilities'
+import { loadSamples } from './drum_samples_buffer'
+
+const samples = loadSamples()
+
+function generateScale() {
+  const keys = []
+
+  for (let step = 0; step < 64; step++) {
+    const octave = step < 7 ? 0 : Math.floor(step / 7)
+    const position = step < 7 ? step + 1 : step + 1 - octave * 7
+    let note
+
+    switch (position) {
+      case 1:
+        note = `A${octave}`
+        break
+      case 2:
+        note = `B${octave}`
+        break
+      case 3:
+        note = `C${octave}`
+        break
+      case 4:
+        note = `D${octave}`
+        break
+      case 5:
+        note = `E${octave}`
+        break
+      case 6:
+        note = `F${octave}`
+        break
+      case 7:
+        note = `G${octave}`
+        break
+    }
+
+    keys.push(note)
+  }
+
+  return keys
+}
+
+function getBufferedSampleUrls() {
+  const bufferedSampleUrls = {}
+  const scale = generateScale()
+
+  scale.forEach((key, i) => {
+    bufferedSampleUrls[key] = samples[i]
+  })
+
+  return bufferedSampleUrls
+}
 
 const samplerSettings = {
   volume: 1,
   attack: 0,
   release: 0,
   curve: 'linear',
-  urls: {
-    A1: kick,
-    B1: snare,
-    C1: hat,
-    D1: ride
-  },
+  urls: getBufferedSampleUrls(),
   baseUrl: 'http://localhost:3000'
 }
 
@@ -53,104 +81,57 @@ const channelNode = new Tone.Channel(channelSettings).toDestination()
 samplerNode.chain(freeverbNode, channelNode)
 
 const v = 1
+const d = '4n'
 
 const partSettings = {
-  scale: ['A1', 'B1', 'C1', 'D1'],
+  scale: generateScale(),
   sequence: [
     {
       time: '0:0:0',
       noteName: 'A1',
-      duration: '1n',
-      velocity: v
-    },
-    {
-      time: '0:0:2',
-      noteName: 'C1',
-      duration: '1n',
+      duration: d,
       velocity: v
     },
     {
       time: '0:1:0',
       noteName: 'A1',
-      duration: '1n',
-      velocity: v
-    },
-    {
-      time: '0:1:2',
-      noteName: 'C1',
-      duration: '1n',
+      duration: d,
       velocity: v
     },
     {
       time: '0:2:0',
       noteName: 'A1',
-      duration: '1n',
-      velocity: v
-    },
-    {
-      time: '0:2:2',
-      noteName: 'C1',
-      duration: '1n',
+      duration: d,
       velocity: v
     },
     {
       time: '0:3:0',
       noteName: 'A1',
-      duration: '1n',
-      velocity: v
-    },
-    {
-      time: '0:3:2',
-      noteName: 'C1',
-      duration: '1n',
+      duration: d,
       velocity: v
     },
     {
       time: '1:0:0',
       noteName: 'A1',
-      duration: '1n',
-      velocity: v
-    },
-    {
-      time: '1:0:2',
-      noteName: 'C1',
-      duration: '1n',
+      duration: d,
       velocity: v
     },
     {
       time: '1:1:0',
       noteName: 'A1',
-      duration: '1n',
-      velocity: v
-    },
-    {
-      time: '1:1:2',
-      noteName: 'C1',
-      duration: '1n',
+      duration: d,
       velocity: v
     },
     {
       time: '1:2:0',
       noteName: 'A1',
-      duration: '1n',
-      velocity: v
-    },
-    {
-      time: '1:2:2',
-      noteName: 'C1',
-      duration: '1n',
+      duration: d,
       velocity: v
     },
     {
       time: '1:3:0',
       noteName: 'A1',
-      duration: '1n',
-      velocity: v
-    },
-    {
-      time: '1:3:2',
-      noteName: 'C1',
-      duration: '1n',
+      duration: d,
       velocity: v
     }
   ]
@@ -171,6 +152,13 @@ partNode.loop = true
 const instrument = [
   {
     id: generateUniqId(),
+    name: 'Sequencer',
+    type: 'Sequencer',
+    node: partNode,
+    settings: partSettings
+  },
+  {
+    id: generateUniqId(),
     name: 'Drum Sampler',
     type: 'Sampler',
     node: samplerNode,
@@ -189,13 +177,6 @@ const instrument = [
     type: 'Channel',
     node: channelNode,
     settings: channelSettings
-  },
-  {
-    id: generateUniqId(),
-    name: 'Sequencer',
-    type: 'Sequencer',
-    node: partNode,
-    settings: partSettings
   }
 ]
 

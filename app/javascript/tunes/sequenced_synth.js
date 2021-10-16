@@ -8,14 +8,14 @@ const synthSettings = {
   envelope: {
     attack: 0.05,
     attackCurve: 'exponential',
-    decay: 0.2,
+    decay: 0.75,
     decayCurve: 'exponential',
-    sustain: 0.2,
-    release: 1.5,
+    sustain: 0.75,
+    release: 0.95,
     releaseCurve: 'exponential'
   },
   oscillator: {
-    type: 'amtriangle',
+    type: 'fatsine',
     modulationType: 'sine',
     // partialCount: 0,
     // partials: [],
@@ -25,11 +25,11 @@ const synthSettings = {
 }
 
 const chorusSettings = {
-  wet: 0,
+  wet: 0.8,
   type: 'sine',
-  frequency: 1.5,
-  delayTime: 3.5,
-  depth: 0.7,
+  frequency: 11,
+  delayTime: 1,
+  depth: 0.12,
   spread: 180
 }
 
@@ -40,9 +40,9 @@ const freeverbSettings = {
 }
 
 const pingPongDelaySettings = {
-  wet: 0,
+  wet: 0.45,
   delayTime: 0.25,
-  maxDelayTime: 1
+  maxDelayTime: 0.13
 }
 
 const tremoloSettings = {
@@ -54,10 +54,10 @@ const tremoloSettings = {
 }
 
 const vibratoSettings = {
-  wet: 0,
+  wet: 0.8,
   maxDelay: 0.005,
-  frequency: 5,
-  depth: 0.1,
+  frequency: 332,
+  depth: 0.01,
   type: 'sine'
 }
 
@@ -80,42 +80,79 @@ synthNode.chain(
   chorusNode,
   freeverbNode,
   pingPongDelayNode,
-  tremoloNode,
   vibratoNode,
+  tremoloNode,
   channelNode
 )
 
 const v = 1
+const d = '4n'
 
 // prettier-ignore
 const partSettings = {
   scale: [
-    'A1','C1','D1','E1', 'G1',
-    'A2','C2','D2','E2','G2',
-    'A3','C3','D3','E3','G3',
-    'A4','C4','D4','E4','G4',
-    'A5','C5','D5','E5','G5',
-    'A6','C6','D6','E6','G6',
-    'A7','C7','D7','E7','G7',
-    'A8','C8','D8','E8','G8'
+    'A1', 'C1', 'D1', 'E1', 'G1',
+    'A2', 'C2', 'D2', 'E2', 'G2',
+    'A3', 'C3', 'D3', 'E3', 'G3',
+    'A4', 'C4', 'D4', 'E4', 'G4',
+    'A5', 'C5', 'D5', 'E5', 'G5',
+    'A6', 'C6', 'D6', 'E6', 'G6',
+    'A7', 'C7', 'D7', 'E7', 'G7',
+    'A8', 'C8', 'D8', 'E8', 'G8'
   ],
   sequence: [
     {
       time: '0:0:0',
-      noteName: 'C4',
-      duration: '1n',
+      noteName: 'G4',
+      duration: d,
       velocity: v
     },
     {
-      time: '0:1:0',
-      noteName: 'A4',
-      duration: '1n',
+      time: '0:0:2',
+      noteName: 'C5',
+      duration: d,
+      velocity: v
+    },
+    {
+      time: '0:1:2',
+      noteName: 'D5',
+      duration: d,
       velocity: v
     },
     {
       time: '0:2:0',
+      noteName: 'G4',
+      duration: d,
+      velocity: v
+    },
+    {
+      time: '0:2:2',
+      noteName: 'D5',
+      duration: d,
+      velocity: v
+    },
+    {
+      time: '0:3:0',
+      noteName: 'G4',
+      duration: d,
+      velocity: v
+    },
+    {
+      time: '0:3:2',
       noteName: 'A4',
-      duration: '1n',
+      duration: d,
+      velocity: v
+    },
+    {
+      time: '1:2:0',
+      noteName: 'G4',
+      duration: d,
+      velocity: v
+    },
+    {
+      time: '1:3:0',
+      noteName: 'G4',
+      duration: d,
       velocity: v
     }
   ]
@@ -134,6 +171,13 @@ partNode.loopEnd = '2m'
 partNode.loop = true
 
 const instrument = [
+  {
+    id: generateUniqId(),
+    name: 'Sequencer',
+    type: 'Sequencer',
+    node: partNode,
+    settings: partSettings
+  },
   {
     id: generateUniqId(),
     name: 'Melody Synth',
@@ -182,13 +226,6 @@ const instrument = [
     type: 'Channel',
     node: channelNode,
     settings: channelSettings
-  },
-  {
-    id: generateUniqId(),
-    name: 'Sequencer',
-    type: 'Sequencer',
-    node: partNode,
-    settings: partSettings
   }
 ]
 

@@ -8,10 +8,10 @@ const synthSettings = {
   envelope: {
     attack: 0.05,
     attackCurve: 'exponential',
-    decay: 0.2,
+    decay: 0.75,
     decayCurve: 'exponential',
-    sustain: 0.2,
-    release: 1.5,
+    sustain: 0.8,
+    release: 1,
     releaseCurve: 'exponential'
   },
   oscillator: {
@@ -42,7 +42,63 @@ const freeverbNode = new Tone.Freeverb(freeverbSettings)
 const channelNode = new Tone.Channel(channelSettings).toDestination()
 synthNode.chain(freeverbNode, channelNode)
 
+const v = 1
+const d = '4n'
+
+// prettier-ignore
+const partSettings = {
+  scale: [
+    'A1', 'C1', 'D1', 'E1', 'G1',
+    'A2', 'C2', 'D2', 'E2', 'G2',
+    'A3', 'C3', 'D3', 'E3', 'G3',
+    'A4', 'C4', 'D4', 'E4', 'G4',
+    'A5', 'C5', 'D5', 'E5', 'G5',
+    'A6', 'C6', 'D6', 'E6', 'G6',
+    'A7', 'C7', 'D7', 'E7', 'G7',
+    'A8', 'C8', 'D8', 'E8', 'G8'
+  ],
+  sequence: [
+    {
+      time: '0:0:2',
+      noteName: 'G1',
+      duration: d,
+      velocity: v
+    },
+    {
+      time: '0:3:2',
+      noteName: 'G1',
+      duration: d,
+      velocity: v
+    },
+    {
+      time: '1:1:0',
+      noteName: 'G1',
+      duration: d,
+      velocity: v
+    }
+  ]
+}
+
+const partNode = new Tone.Part(function (time, note) {
+  synthNode.triggerAttackRelease(
+    note.noteName,
+    note.duration,
+    time,
+    note.velocity
+  )
+}, [])
+
+partNode.loopEnd = '2m'
+partNode.loop = true
+
 const instrument = [
+  {
+    id: generateUniqId(),
+    name: 'Sequencer',
+    type: 'Sequencer',
+    node: partNode,
+    settings: partSettings
+  },
   {
     id: generateUniqId(),
     name: 'Bass Synth',
@@ -66,12 +122,4 @@ const instrument = [
   }
 ]
 
-const sequention = new Tone.Sequence(
-  (time, note) => {
-    synthNode.triggerAttackRelease(note, '1m', time)
-  },
-  ['C3', 'D3', 'E2', 'E3'],
-  '1m'
-)
-
-export { instrument, sequention }
+export { instrument }

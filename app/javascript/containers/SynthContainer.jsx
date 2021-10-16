@@ -1,6 +1,6 @@
 import * as Tone from 'tone'
 // import * as melodySynth from '../tunes/melody_synth'
-// import * as bassSynth from '../tunes/bass_synth'
+import * as bassSynth from '../tunes/bass_synth'
 // import * as spaceSynth from '../tunes/space_synth'
 // import * as allEffectsSynth from '../tunes/all_effects_synth'
 import * as drumSampler from '../tunes/drum_sampler'
@@ -45,11 +45,11 @@ export default class SynthContainer extends PureComponent {
 
     const instruments = [
       // melodySynth.instrument,
-      // bassSynth.instrument
       // spaceSynth.instrument
       // allEffectsSynth.instrument
       drumSampler.instrument,
-      sequencedSynth.instrument
+      sequencedSynth.instrument,
+      bassSynth.instrument
     ]
 
     this.setState({ instruments })
@@ -90,7 +90,7 @@ export default class SynthContainer extends PureComponent {
               newInstrumentModule.settings.sequence.push({
                 time: property[1],
                 noteName: property[0],
-                duration: '1n',
+                duration: '4n',
                 velocity: 1
               })
             }

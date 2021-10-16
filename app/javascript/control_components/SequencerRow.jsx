@@ -33,7 +33,7 @@ export default class SequencerRow extends PureComponent {
     options.forEach((option, i) => {
       buttonElements.push(
         <ToggleButton
-          text={option}
+          text={name}
           isOn={this.checkToggleState(option, value)}
           handleClick={() => this.handleChange(option)}
           key={i}
