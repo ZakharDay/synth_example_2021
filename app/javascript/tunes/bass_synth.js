@@ -2,9 +2,9 @@ import * as Tone from 'tone'
 import { generateUniqId } from '../utilities'
 
 const synthSettings = {
-  volume: 0.8,
+  volume: -10,
   detune: 0,
-  portamento: 0.05,
+  portamento: 0.8,
   envelope: {
     attack: 0.05,
     attackCurve: 'exponential',
@@ -15,7 +15,7 @@ const synthSettings = {
     releaseCurve: 'exponential'
   },
   oscillator: {
-    type: 'fatsawtooth',
+    type: 'fattriangle',
     modulationType: 'sine',
     // partialCount: 0,
     // partials: [],
@@ -101,7 +101,7 @@ const instrument = [
   },
   {
     id: generateUniqId(),
-    name: 'Bass Synth',
+    name: 'MOON',
     type: 'ToneSynth',
     node: synthNode,
     settings: synthSettings

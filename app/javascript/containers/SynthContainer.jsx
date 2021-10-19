@@ -1,9 +1,9 @@
 import * as Tone from 'tone'
-// import * as melodySynth from '../tunes/melody_synth'
+import * as melodySynth from '../tunes/melody_synth'
 import * as bassSynth from '../tunes/bass_synth'
 // import * as spaceSynth from '../tunes/space_synth'
 // import * as allEffectsSynth from '../tunes/all_effects_synth'
-import * as drumSampler from '../tunes/drum_sampler'
+// import * as drumSampler from '../tunes/drum_sampler'
 import * as sequencedSynth from '../tunes/sequenced_synth'
 
 import React, { PureComponent } from 'react'
@@ -19,6 +19,82 @@ export default class SynthContainer extends PureComponent {
       webAudioStarted: false,
       instruments: []
     }
+  }
+
+  mountSpace = () => {
+    this.setupSun()
+    this.setupMoon()
+    this.setupSaturn()
+    // setInterval(this.mountSpace, 1000)
+  }
+
+  setupSaturn = () => {
+    const { altaz, constellation, aberration } = this.props.saturn.position
+    const { dDec, dRA } = aberration
+
+    const {
+      dLocalApparentSiderialTime,
+      atmosphericRefraction,
+      topocentric,
+      transit
+    } = altaz
+
+    // const { dDec, dRA, deg } = atmosphericRefraction
+    const { altitude, azimuth } = topocentric
+    const { dApproxRiseUT, dApproxSetUT } = transit
+
+    const { instruments } = this.state
+
+    const saturn = instruments[2]
+    saturn[1].node.triggerAttack(Math.abs(azimuth) * 4)
+    saturn[2].node.frequency.value = Math.abs(altitude)
+    saturn[5].node.frequency.value = Math.abs(dDec)
+  }
+
+  setupMoon = () => {
+    const { altaz, constellation } = this.props.sun.position
+
+    const {
+      dLocalApparentSiderialTime,
+      atmosphericRefraction,
+      topocentric,
+      transit
+    } = altaz
+
+    const { dDec, dRA, deg } = atmosphericRefraction
+    const { altitude, azimuth } = topocentric
+    const { dApproxRiseUT, dApproxSetUT } = transit
+
+    const { instruments } = this.state
+
+    const moon = instruments[1]
+    moon[1].node.triggerAttack(Math.abs(azimuth) * 4)
+    // moon[2].node.frequency.value = altitude
+    // moon[6].node.frequency.value = altitude * dLocalApparentSiderialTime
+  }
+
+  setupSun = () => {
+    const { altaz, constellation } = this.props.sun.position
+
+    const {
+      dLocalApparentSiderialTime,
+      atmosphericRefraction,
+      topocentric,
+      transit
+    } = altaz
+
+    const { dDec, dRA, deg } = atmosphericRefraction
+    const { altitude, azimuth } = topocentric
+    const { dApproxRiseUT, dApproxSetUT } = transit
+
+    const { instruments } = this.state
+
+    const sun = instruments[0]
+    sun[1].node.triggerAttack(Math.abs(azimuth))
+    sun[2].node.frequency.value = Math.abs(altitude)
+
+    sun[6].node.frequency.value =
+      Math.abs(altitude) * Math.abs(dLocalApparentSiderialTime)
   }
 
   startWebAudio = async () => {
@@ -44,12 +120,12 @@ export default class SynthContainer extends PureComponent {
     // const sequention = drumSampler.part.start()
 
     const instruments = [
-      // melodySynth.instrument,
       // spaceSynth.instrument
       // allEffectsSynth.instrument
-      drumSampler.instrument,
+      // drumSampler.instrument,
       sequencedSynth.instrument,
-      bassSynth.instrument
+      bassSynth.instrument,
+      melodySynth.instrument
     ]
 
     this.setState({ instruments })
@@ -119,6 +195,7 @@ export default class SynthContainer extends PureComponent {
       <SynthRoom
         instruments={instruments}
         handlePropertyValueChange={this.handlePropertyValueChange}
+        mountSpace={this.mountSpace}
       />
     )
   }

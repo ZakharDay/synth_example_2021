@@ -180,7 +180,7 @@ const instrument = [
   },
   {
     id: generateUniqId(),
-    name: 'Melody Synth',
+    name: 'SUN',
     type: 'ToneSynth',
     node: synthNode,
     settings: synthSettings

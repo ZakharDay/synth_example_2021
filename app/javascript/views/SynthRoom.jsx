@@ -34,6 +34,11 @@ export default class SynthRoom extends PureComponent {
     super(props)
   }
 
+  componentDidMount() {
+    const { mountSpace } = this.props
+    mountSpace()
+  }
+
   render() {
     const { instruments, handlePropertyValueChange } = this.props
     const instrumentElements = []

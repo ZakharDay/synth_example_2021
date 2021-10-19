@@ -10,7 +10,7 @@ export default class Sequencer extends Component {
 
   componentDidMount() {
     const { node } = this.props
-    node.start()
+    // node.start()
   }
 
   updateNodeParams = () => {
