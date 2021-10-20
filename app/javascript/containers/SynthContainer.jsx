@@ -101,11 +101,27 @@ export default class SynthContainer extends PureComponent {
     const { instruments } = this.state
 
     const sun = instruments[0]
-    sun[0].node.triggerAttack(Math.abs(azimuth))
-    sun[1].node.frequency.value = Math.abs(altitude)
+    const chorusEffect = sun[1]
+    const vibratoEffect = sun[2]
 
-    sun[2].node.frequency.value =
+    sun[0].node.triggerAttack(Math.abs(azimuth))
+
+    this.handlePropertyValueChange(
+      chorusEffect.id,
+      ['frequency'],
+      Math.abs(altitude)
+    )
+
+    this.handlePropertyValueChange(
+      vibratoEffect.id,
+      ['frequency'],
       Math.abs(altitude) * Math.abs(dLocalApparentSiderialTime)
+    )
+
+    // sun[1].node.frequency.value = Math.abs(altitude)
+    //
+    // sun[2].node.frequency.value =
+    //   Math.abs(altitude) * Math.abs(dLocalApparentSiderialTime)
   }
 
   setupMoon = () => {
@@ -151,11 +167,26 @@ export default class SynthContainer extends PureComponent {
     const { dApproxRiseUT, dApproxSetUT } = transit
 
     const { instruments } = this.state
-
     const saturn = instruments[2]
+    const autoFilterEffect = saturn[1]
+    const phaserEffect = saturn[3]
+
     saturn[0].node.triggerAttack(Math.abs(azimuth) * 4)
-    saturn[1].node.frequency.value = Math.abs(altitude)
-    saturn[3].node.frequency.value = Math.abs(dDec)
+
+    this.handlePropertyValueChange(
+      autoFilterEffect.id,
+      ['frequency'],
+      Math.abs(altitude)
+    )
+
+    this.handlePropertyValueChange(
+      phaserEffect.id,
+      ['frequency'],
+      Math.abs(dDec)
+    )
+
+    // saturn[1].node.frequency.value = Math.abs(altitude)
+    // saturn[3].node.frequency.value = Math.abs(dDec)
   }
 
   setupPluto = () => {
@@ -168,42 +199,47 @@ export default class SynthContainer extends PureComponent {
 
     const { instruments } = this.state
     const pluto = instruments[3]
+    const toneSynth = pluto[0]
+    const chorusEffect = pluto[1]
 
     setInterval(() => {
       astronomicalObjects = getAstronomicalObjectsData()
-
       altitude = astronomicalObjects.pluto.position.altaz.topocentric.altitude
       azimuth = astronomicalObjects.pluto.position.altaz.topocentric.azimuth
 
       console.log('Pluto', Math.abs(azimuth) * 60)
 
-      pluto[0].node.triggerAttackRelease(Math.abs(azimuth) * 8, '4n')
-      pluto[0].node.detune.value = altitude
-      pluto[1].node.frequency.value = Math.abs(altitude)
+      // pluto[0].node.detune.value = altitude
+      // pluto[1].node.frequency.value = Math.abs(altitude)
+
+      toneSynth.node.triggerAttackRelease(Math.abs(azimuth) * 8, '4n')
+
+      this.handlePropertyValueChange(
+        toneSynth.id,
+        ['detune'],
+        Math.floor(altitude)
+      )
+
+      this.handlePropertyValueChange(
+        chorusEffect.id,
+        ['frequency'],
+        Math.abs(altitude)
+      )
     }, Math.abs(azimuth) * 60)
   }
 
   setupNeptune = () => {
     astronomicalObjects = getAstronomicalObjectsData()
     let { azimuth } = astronomicalObjects.neptune.position.altaz.topocentric
-
     const { instruments } = this.state
     const neptune = instruments[4]
-
     let timeNow = Math.floor(Math.abs(Tone.now() + Math.abs(azimuth) * 150))
 
     setInterval(() => {
       timeNow = timeNow + Math.floor(Math.abs(azimuth) * 150)
-
       astronomicalObjects = getAstronomicalObjectsData()
       azimuth = astronomicalObjects.neptune.position.altaz.topocentric.azimuth
-
-      const {
-        altaz,
-        constellation,
-        aberration,
-        nutation
-      } = astronomicalObjects.neptune.position
+      const { aberration, nutation } = astronomicalObjects.neptune.position
 
       let noteDataSet = [
         aberration.dRA,
@@ -215,11 +251,6 @@ export default class SynthContainer extends PureComponent {
       noteDataSet = noteDataSet.sort(() => 0.5 - Math.random())
 
       noteDataSet.forEach((noteDataItem, i) => {
-        // const time = Math.floor(Math.abs(timeNow + noteDataItem * i))
-        // const time = Tone.now() + 3 + i
-
-        console.log(Math.floor(Math.abs(azimuth * noteDataItem)))
-
         neptune[0].node.triggerAttackRelease(
           Math.floor(Math.abs(azimuth * noteDataItem)),
           '4n',
@@ -241,17 +272,8 @@ export default class SynthContainer extends PureComponent {
     setInterval(() => {
       astronomicalObjects = getAstronomicalObjectsData()
       azimuth = astronomicalObjects.mars.position.altaz.topocentric.azimuth
-
-      const {
-        altaz,
-        constellation,
-        aberration,
-        nutation
-      } = astronomicalObjects.mars.position
-
       const noteLength = [2, 4, 8]
       const coef = noteLength[Math.floor(Math.random() * noteLength.length)]
-
       mars[0].node.triggerAttackRelease(Math.abs(azimuth) * coef, `${coef}n`)
 
       console.log('Mars', Math.abs(azimuth) * 110)

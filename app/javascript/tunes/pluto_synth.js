@@ -3,7 +3,7 @@ import { freeverbNode } from './main_channel'
 import { generateUniqId } from '../utilities'
 
 const synthSettings = {
-  volume: 1.4,
+  volume: -10,
   detune: 0,
   portamento: 0.05,
   envelope: {

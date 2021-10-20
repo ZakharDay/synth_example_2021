@@ -3,7 +3,7 @@ import { freeverbNode } from './main_channel'
 import { generateUniqId } from '../utilities'
 
 const synthSettings = {
-  volume: -14,
+  volume: -9.8,
   detune: 0,
   portamento: 0.05,
   envelope: {
@@ -71,7 +71,7 @@ const pingPongDelaySettings = {
 // }
 
 const channelSettings = {
-  volume: -14,
+  volume: -20,
   pan: 0,
   mute: false,
   solo: false

@@ -34,7 +34,18 @@ export default class Knob extends PureComponent {
     })
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.value !== this.props.value) {
+      const { value } = this.props
+
+      this.setState({
+        deg: this.calcDeg(value)
+      })
+    }
+  }
+
   calcDeg = (value) => {
+    console.log('calcDeg', value)
     const { min } = this.props
     const { coef } = this.state
 
