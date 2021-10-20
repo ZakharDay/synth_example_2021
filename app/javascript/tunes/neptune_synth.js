@@ -1,8 +1,9 @@
 import * as Tone from 'tone'
+import { freeverbNode } from './main_channel'
 import { generateUniqId } from '../utilities'
 
 const synthSettings = {
-  volume: -11,
+  volume: -14,
   detune: 0,
   portamento: 0.05,
   envelope: {
@@ -15,7 +16,7 @@ const synthSettings = {
     releaseCurve: 'exponential'
   },
   oscillator: {
-    type: 'fatsine',
+    type: 'fatsawtooth',
     modulationType: 'sine',
     // partialCount: 0,
     // partials: [],
@@ -39,16 +40,6 @@ const autoFilterSettings = {
   }
 }
 
-const autoWahSettings = {
-  wet: 0,
-  baseFrequency: 100,
-  octaves: 6,
-  sensitivity: 0,
-  Q: 2,
-  gain: 2,
-  follower: 0.1
-}
-
 const chorusSettings = {
   wet: 0.8,
   type: 'sine',
@@ -60,7 +51,7 @@ const chorusSettings = {
 
 const phaserSettings = {
   wet: 0.8,
-  frequency: 0.5,
+  frequency: 20,
   octaves: 3,
   stages: 10,
   Q: 10,
@@ -68,16 +59,16 @@ const phaserSettings = {
 }
 
 const pingPongDelaySettings = {
-  wet: 0.45,
-  delayTime: 0.25,
-  maxDelayTime: 0.13
+  wet: 0.6,
+  delayTime: 0.8,
+  maxDelayTime: 0.01
 }
 
-const freeverbSettings = {
-  wet: 0.55,
-  roomSize: 0.23,
-  dampening: 40
-}
+// const freeverbSettings = {
+//   wet: 0.55,
+//   roomSize: 0.23,
+//   dampening: 0.1
+// }
 
 const channelSettings = {
   volume: -14,
@@ -88,16 +79,14 @@ const channelSettings = {
 
 const synthNode = new Tone.Synth(synthSettings)
 const autoFilterNode = new Tone.AutoFilter(autoFilterSettings).start()
-const autoWahNode = new Tone.AutoWah(autoWahSettings)
 const chorusNode = new Tone.Chorus(chorusSettings)
 const phaserNode = new Tone.Phaser(phaserSettings)
 const pingPongDelayNode = new Tone.PingPongDelay(pingPongDelaySettings)
-const freeverbNode = new Tone.Freeverb(freeverbSettings)
+// const freeverbNode = new Tone.Freeverb(freeverbSettings)
 const channelNode = new Tone.Channel(channelSettings).toDestination()
 
 synthNode.chain(
   autoFilterNode,
-  autoWahNode,
   chorusNode,
   phaserNode,
   pingPongDelayNode,
@@ -120,62 +109,7 @@ const partSettings = {
     'A7', 'C7', 'D7', 'E7', 'G7',
     'A8', 'C8', 'D8', 'E8', 'G8'
   ],
-  sequence: [
-    {
-      time: '0:0:0',
-      noteName: 'G4',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '0:0:2',
-      noteName: 'C5',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '0:1:2',
-      noteName: 'D5',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '0:2:0',
-      noteName: 'G4',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '0:2:2',
-      noteName: 'D5',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '0:3:0',
-      noteName: 'G4',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '0:3:2',
-      noteName: 'A4',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '1:2:0',
-      noteName: 'G4',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '1:3:0',
-      noteName: 'G4',
-      duration: d,
-      velocity: v
-    }
-  ]
+  sequence: []
 }
 
 const partNode = new Tone.Part(function (time, note) {
@@ -191,16 +125,16 @@ partNode.loopEnd = '2m'
 partNode.loop = true
 
 const instrument = [
+  // {
+  //   id: generateUniqId(),
+  //   name: 'Sequencer',
+  //   type: 'Sequencer',
+  //   node: partNode,
+  //   settings: partSettings
+  // },
   {
     id: generateUniqId(),
-    name: 'Sequencer',
-    type: 'Sequencer',
-    node: partNode,
-    settings: partSettings
-  },
-  {
-    id: generateUniqId(),
-    name: 'SATURN',
+    name: 'NEPTUNE',
     type: 'ToneSynth',
     node: synthNode,
     settings: synthSettings
@@ -211,13 +145,6 @@ const instrument = [
     type: 'AutoFilterEffect',
     node: autoFilterNode,
     settings: autoFilterSettings
-  },
-  {
-    id: generateUniqId(),
-    name: 'Auto Wah',
-    type: 'AutoWahEffect',
-    node: autoWahNode,
-    settings: autoWahSettings
   },
   {
     id: generateUniqId(),
@@ -239,13 +166,6 @@ const instrument = [
     type: 'PingPongDelayEffect',
     node: pingPongDelayNode,
     settings: pingPongDelaySettings
-  },
-  {
-    id: generateUniqId(),
-    name: 'Freeverb',
-    type: 'FreeverbEffect',
-    node: freeverbNode,
-    settings: freeverbSettings
   },
   {
     id: generateUniqId(),

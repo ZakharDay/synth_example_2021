@@ -33,26 +33,6 @@ const chorusSettings = {
   spread: 180
 }
 
-const freeverbSettings = {
-  wet: 0.55,
-  roomSize: 0.23,
-  dampening: 40
-}
-
-const pingPongDelaySettings = {
-  wet: 0.45,
-  delayTime: 0.25,
-  maxDelayTime: 0.13
-}
-
-const tremoloSettings = {
-  wet: 0,
-  frequency: 10,
-  type: 'sine',
-  depth: 0.5,
-  spread: 180
-}
-
 const vibratoSettings = {
   wet: 0.8,
   maxDelay: 0.005,
@@ -70,20 +50,9 @@ const channelSettings = {
 
 const synthNode = new Tone.Synth(synthSettings)
 const chorusNode = new Tone.Chorus(chorusSettings).start()
-const freeverbNode = new Tone.Freeverb(freeverbSettings)
-const pingPongDelayNode = new Tone.PingPongDelay(pingPongDelaySettings)
-const tremoloNode = new Tone.Tremolo(tremoloSettings)
 const vibratoNode = new Tone.Vibrato(vibratoSettings)
 const channelNode = new Tone.Channel(channelSettings).toDestination()
-
-synthNode.chain(
-  chorusNode,
-  freeverbNode,
-  pingPongDelayNode,
-  vibratoNode,
-  tremoloNode,
-  channelNode
-)
+synthNode.chain(chorusNode, vibratoNode, channelNode)
 
 const v = 1
 const d = '4n'
@@ -100,62 +69,7 @@ const partSettings = {
     'A7', 'C7', 'D7', 'E7', 'G7',
     'A8', 'C8', 'D8', 'E8', 'G8'
   ],
-  sequence: [
-    {
-      time: '0:0:0',
-      noteName: 'G4',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '0:0:2',
-      noteName: 'C5',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '0:1:2',
-      noteName: 'D5',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '0:2:0',
-      noteName: 'G4',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '0:2:2',
-      noteName: 'D5',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '0:3:0',
-      noteName: 'G4',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '0:3:2',
-      noteName: 'A4',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '1:2:0',
-      noteName: 'G4',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '1:3:0',
-      noteName: 'G4',
-      duration: d,
-      velocity: v
-    }
-  ]
+  sequence: []
 }
 
 const partNode = new Tone.Part(function (time, note) {
@@ -171,13 +85,13 @@ partNode.loopEnd = '2m'
 partNode.loop = true
 
 const instrument = [
-  {
-    id: generateUniqId(),
-    name: 'Sequencer',
-    type: 'Sequencer',
-    node: partNode,
-    settings: partSettings
-  },
+  // {
+  //   id: generateUniqId(),
+  //   name: 'Sequencer',
+  //   type: 'Sequencer',
+  //   node: partNode,
+  //   settings: partSettings
+  // },
   {
     id: generateUniqId(),
     name: 'SUN',
@@ -191,27 +105,6 @@ const instrument = [
     type: 'ChorusEffect',
     node: chorusNode,
     settings: chorusSettings
-  },
-  {
-    id: generateUniqId(),
-    name: 'Freeverb',
-    type: 'FreeverbEffect',
-    node: freeverbNode,
-    settings: freeverbSettings
-  },
-  {
-    id: generateUniqId(),
-    name: 'Ping Pong Delay',
-    type: 'PingPongDelayEffect',
-    node: pingPongDelayNode,
-    settings: pingPongDelaySettings
-  },
-  {
-    id: generateUniqId(),
-    name: 'Tremolo',
-    type: 'TremoloEffect',
-    node: tremoloNode,
-    settings: tremoloSettings
   },
   {
     id: generateUniqId(),

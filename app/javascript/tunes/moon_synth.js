@@ -57,26 +57,7 @@ const partSettings = {
     'A7', 'C7', 'D7', 'E7', 'G7',
     'A8', 'C8', 'D8', 'E8', 'G8'
   ],
-  sequence: [
-    {
-      time: '0:0:2',
-      noteName: 'G1',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '0:3:2',
-      noteName: 'G1',
-      duration: d,
-      velocity: v
-    },
-    {
-      time: '1:1:0',
-      noteName: 'G1',
-      duration: d,
-      velocity: v
-    }
-  ]
+  sequence: []
 }
 
 const partNode = new Tone.Part(function (time, note) {
@@ -92,13 +73,13 @@ partNode.loopEnd = '2m'
 partNode.loop = true
 
 const instrument = [
-  {
-    id: generateUniqId(),
-    name: 'Sequencer',
-    type: 'Sequencer',
-    node: partNode,
-    settings: partSettings
-  },
+  // {
+  //   id: generateUniqId(),
+  //   name: 'Sequencer',
+  //   type: 'Sequencer',
+  //   node: partNode,
+  //   settings: partSettings
+  // },
   {
     id: generateUniqId(),
     name: 'MOON',
