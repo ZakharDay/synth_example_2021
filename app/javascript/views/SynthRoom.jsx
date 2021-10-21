@@ -1,3 +1,4 @@
+import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 
@@ -34,13 +35,8 @@ export default class SynthRoom extends PureComponent {
     super(props)
   }
 
-  componentDidMount() {
-    const { mountSpace } = this.props
-    mountSpace()
-  }
-
   render() {
-    const { instruments, handlePropertyValueChange } = this.props
+    const { isVisible, instruments, handlePropertyValueChange } = this.props
     const instrumentElements = []
 
     instruments.forEach((instrument, i) => {
@@ -96,7 +92,12 @@ export default class SynthRoom extends PureComponent {
       )
     })
 
-    return <div className="SynthRoom">{instrumentElements}</div>
+    const classes = classnames({
+      SynthRoom: true,
+      visible: isVisible
+    })
+
+    return <div className={classes}>{instrumentElements}</div>
   }
 }
 

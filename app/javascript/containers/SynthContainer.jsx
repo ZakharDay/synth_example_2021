@@ -7,64 +7,134 @@ import * as plutoSynth from '../tunes/pluto_synth'
 import * as neptuneSynth from '../tunes/neptune_synth'
 import * as marsSynth from '../tunes/mars_synth'
 
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 
 import WelcomeScreen from '../views/WelcomeScreen'
+import TimeMachine from '../views/TimeMachine'
 import SynthRoom from '../views/SynthRoom'
 
 import { moshier, constant, processor } from '../ephemeris-0.1.0-modified'
 
 // prettier-ignore
 const planets = ['sun', 'mercury', 'venus', 'moon', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'pluto', 'chiron', 'sirius']
-
-function getCurrentDate() {
-  const now = new Date(Date.now())
-  now.setMonth(now.getMonth() + 4)
-
-  const date = {
-    year: now.getFullYear(),
-    month: now.getMonth(),
-    day: now.getDate(),
-    hours: now.getHours(),
-    minutes: now.getMinutes(),
-    seconds: now.getSeconds()
-  }
-
-  return date
-}
-
-function getAstronomicalObjectsData() {
-  const date = getCurrentDate()
-  const astronomicalObjects = {}
-
-  constant.tlong = 55.755803
-  constant.glat = 37.6171107
-  processor.init()
-
-  planets.forEach((planet, i) => {
-    const data = moshier.body[planet]
-    processor.calc(date, data)
-
-    astronomicalObjects[data.key] = data
-  })
-
-  return astronomicalObjects
-}
-
 let astronomicalObjects = {}
+let timeIntervalObjects = []
 
-export default class SynthContainer extends PureComponent {
+export default class SynthContainer extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       webAudioStarted: false,
+      isSynthRoomVisible: false,
+      timeShift: {
+        hours: 0,
+        days: 0,
+        months: 0,
+        years: 0
+      },
+      currentDate: {
+        hours: 0,
+        days: 0,
+        months: 0,
+        years: 0
+      },
       instruments: []
     }
   }
 
+  componentDidMount() {
+    const { timeShift } = this.state
+    const currentDate = this.formatCurrentDate(timeShift)
+    this.setState({ currentDate })
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { hours, days, months, years } = this.state.timeShift
+    console.log('SHOULD UPDATE')
+
+    if (
+      hours != nextState.timeShift.hours ||
+      days != nextState.timeShift.days ||
+      months != nextState.timeShift.months ||
+      years != nextState.timeShift.years
+    ) {
+      console.log('SETUP')
+      // this.setCurrentDate()
+      this.mountSpace()
+    }
+
+    return true
+  }
+
+  formatCurrentDate = (timeShift) => {
+    const currentDate = this.getCurrentDate(timeShift)
+
+    const newCurrentDate = {
+      hours: currentDate.hours,
+      days: currentDate.day,
+      months: currentDate.month + 1,
+      years: currentDate.year
+    }
+
+    return newCurrentDate
+
+    // console.log('SET CURRENT DATE')
+
+    // this.setState({
+    //   currentDate: newCurrentDate
+    // })
+  }
+
+  getCurrentDate = (timeShift) => {
+    const { hours, days, months, years } = timeShift
+    const now = new Date(Date.now())
+    now.setHours(now.getHours() + hours)
+    now.setDate(now.getDate() + days)
+    now.setMonth(now.getMonth() + months)
+    now.setFullYear(now.getFullYear() + years)
+
+    const date = {
+      year: now.getFullYear(),
+      month: now.getMonth(),
+      day: now.getDate(),
+      hours: now.getHours(),
+      minutes: now.getMinutes(),
+      seconds: now.getSeconds()
+    }
+
+    return date
+  }
+
+  getAstronomicalObjectsData = () => {
+    const { timeShift } = this.state
+    const date = this.getCurrentDate(timeShift)
+    const astronomicalObjects = {}
+
+    constant.tlong = 55.755803
+    constant.glat = 37.6171107
+    processor.init()
+
+    planets.forEach((planet, i) => {
+      const data = moshier.body[planet]
+      processor.calc(date, data)
+
+      astronomicalObjects[data.key] = data
+    })
+
+    return astronomicalObjects
+  }
+
+  clearTimeIntervals = () => {
+    timeIntervalObjects.forEach((timeInterval, i) => {
+      clearInterval(timeInterval)
+    })
+  }
+
   mountSpace = () => {
-    astronomicalObjects = getAstronomicalObjectsData()
+    this.clearTimeIntervals()
+
+    astronomicalObjects = this.getAstronomicalObjectsData()
 
     this.setupSun()
     this.setupMoon()
@@ -77,7 +147,6 @@ export default class SynthContainer extends PureComponent {
     // Venus
     // Jupiter
     // Uranus
-
     // Chiron
     // Sirius
 
@@ -141,6 +210,7 @@ export default class SynthContainer extends PureComponent {
     const { instruments } = this.state
 
     const moon = instruments[1]
+
     moon[0].node.triggerAttack(Math.abs(azimuth) * 4)
     // moon[2].node.frequency.value = altitude
     // moon[6].node.frequency.value = altitude * dLocalApparentSiderialTime
@@ -190,7 +260,7 @@ export default class SynthContainer extends PureComponent {
   }
 
   setupPluto = () => {
-    astronomicalObjects = getAstronomicalObjectsData()
+    astronomicalObjects = this.getAstronomicalObjectsData()
 
     let {
       altitude,
@@ -202,8 +272,8 @@ export default class SynthContainer extends PureComponent {
     const toneSynth = pluto[0]
     const chorusEffect = pluto[1]
 
-    setInterval(() => {
-      astronomicalObjects = getAstronomicalObjectsData()
+    const timeInterval = setInterval(() => {
+      astronomicalObjects = this.getAstronomicalObjectsData()
       altitude = astronomicalObjects.pluto.position.altaz.topocentric.altitude
       azimuth = astronomicalObjects.pluto.position.altaz.topocentric.azimuth
 
@@ -226,18 +296,20 @@ export default class SynthContainer extends PureComponent {
         Math.abs(altitude)
       )
     }, Math.abs(azimuth) * 60)
+
+    timeIntervalObjects.push(timeInterval)
   }
 
   setupNeptune = () => {
-    astronomicalObjects = getAstronomicalObjectsData()
+    astronomicalObjects = this.getAstronomicalObjectsData()
     let { azimuth } = astronomicalObjects.neptune.position.altaz.topocentric
     const { instruments } = this.state
     const neptune = instruments[4]
     let timeNow = Math.floor(Math.abs(Tone.now() + Math.abs(azimuth) * 150))
 
-    setInterval(() => {
+    const timeInterval = setInterval(() => {
       timeNow = timeNow + Math.floor(Math.abs(azimuth) * 150)
-      astronomicalObjects = getAstronomicalObjectsData()
+      astronomicalObjects = this.getAstronomicalObjectsData()
       azimuth = astronomicalObjects.neptune.position.altaz.topocentric.azimuth
       const { aberration, nutation } = astronomicalObjects.neptune.position
 
@@ -260,17 +332,19 @@ export default class SynthContainer extends PureComponent {
 
       console.log('Neptune', Math.abs(azimuth) * 150)
     }, Math.abs(azimuth) * 150)
+
+    timeIntervalObjects.push(timeInterval)
   }
 
   setupMars = () => {
-    astronomicalObjects = getAstronomicalObjectsData()
+    astronomicalObjects = this.getAstronomicalObjectsData()
     let { azimuth } = astronomicalObjects.mars.position.altaz.topocentric
 
     const { instruments } = this.state
     const mars = instruments[5]
 
-    setInterval(() => {
-      astronomicalObjects = getAstronomicalObjectsData()
+    const timeInterval = setInterval(() => {
+      astronomicalObjects = this.getAstronomicalObjectsData()
       azimuth = astronomicalObjects.mars.position.altaz.topocentric.azimuth
       const noteLength = [2, 4, 8]
       const coef = noteLength[Math.floor(Math.random() * noteLength.length)]
@@ -278,6 +352,8 @@ export default class SynthContainer extends PureComponent {
 
       console.log('Mars', Math.abs(azimuth) * 110)
     }, Math.abs(azimuth) * 110)
+
+    timeIntervalObjects.push(timeInterval)
   }
 
   startWebAudio = async () => {
@@ -305,6 +381,26 @@ export default class SynthContainer extends PureComponent {
     ]
 
     this.setState({ instruments })
+  }
+
+  handleSynthRoomVisibilityChange = () => {
+    const { isSynthRoomVisible } = this.state
+
+    this.setState({
+      isSynthRoomVisible: !isSynthRoomVisible
+    })
+  }
+
+  handleTimeShiftChange = (property, value) => {
+    const timeShift = Object.assign({}, this.state.timeShift)
+
+    timeShift[property] = value
+    const currentDate = this.formatCurrentDate(timeShift)
+
+    this.setState({
+      timeShift,
+      currentDate
+    })
   }
 
   handlePropertyValueChange = (id, property, value) => {
@@ -365,14 +461,30 @@ export default class SynthContainer extends PureComponent {
   }
 
   renderSynthRoom = () => {
-    const { instruments } = this.state
+    const {
+      timeShift,
+      currentDate,
+      isSynthRoomVisible,
+      instruments
+    } = this.state
 
     return (
-      <SynthRoom
-        instruments={instruments}
-        handlePropertyValueChange={this.handlePropertyValueChange}
-        mountSpace={this.mountSpace}
-      />
+      <>
+        <TimeMachine
+          isVisible={isSynthRoomVisible}
+          timeShift={timeShift}
+          currentDate={currentDate}
+          handleSynthRoomVisibilityChange={this.handleSynthRoomVisibilityChange}
+          handleTimeShiftChange={this.handleTimeShiftChange}
+          mountSpace={this.mountSpace}
+        />
+
+        <SynthRoom
+          isVisible={isSynthRoomVisible}
+          instruments={instruments}
+          handlePropertyValueChange={this.handlePropertyValueChange}
+        />
+      </>
     )
   }
 

@@ -1,0 +1,44 @@
+.TimeMachine {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  & > .ToggleButton {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border-radius: 15px;
+    line-height: 30px;
+    text-align: center;
+    z-index: 1;
+
+    &.active {
+      background-color: var(--dark-green);
+      cursor: pointer;
+    }
+  }
+
+  .controls {
+    display: none;
+    width: 60vw;
+
+    &.visible {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .Slider {
+      margin: 40px 0;
+      text-transform: uppercase;
+      font-weight: bold;
+
+      h3 {
+        margin-bottom: 20px;
+      }
+    }
+  }
+}
